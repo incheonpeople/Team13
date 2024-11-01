@@ -15573,6 +15573,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2664881065266463440, guid: 95ae53d2978d02c409abcacd83e26443, type: 3}
+      propertyPath: DamageOverlay
+      value: 
+      objectReference: {fileID: 30065787}
+    - target: {fileID: 2664881065266463440, guid: 95ae53d2978d02c409abcacd83e26443, type: 3}
       propertyPath: damageOverlay
       value: 
       objectReference: {fileID: 30065787}
@@ -15703,12 +15707,16 @@ PrefabInstance:
       value: Bear
       objectReference: {fileID: 0}
     - target: {fileID: 5609050782067598861, guid: 59789757ba695f7499ea9ee24b450dee, type: 3}
-      propertyPath: player
+      propertyPath: Player
       value: 
       objectReference: {fileID: 1290958852}
     - target: {fileID: 5609050782067598861, guid: 59789757ba695f7499ea9ee24b450dee, type: 3}
-      propertyPath: attackSpeed
-      value: 2
+      propertyPath: AttackSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5609050782067598861, guid: 59789757ba695f7499ea9ee24b450dee, type: 3}
+      propertyPath: DetectionRange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8972269322378283016, guid: 59789757ba695f7499ea9ee24b450dee, type: 3}
       propertyPath: m_LocalPosition.x

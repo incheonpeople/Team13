@@ -133,12 +133,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b76f37a92a51d941bf828ff3376b028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  detectionRange: 10
-  moveSpeed: 20
-  attackRange: 2.3
-  attackSpeed: 2
-  maxHealth: 100
+  Player: {fileID: 5061242123769549815, guid: 95ae53d2978d02c409abcacd83e26443, type: 3}
+  DetectionRange: 5
+  MoveSpeed: 20
+  AttackRange: 2.3
+  AttackSpeed: 1
+  MaxHealth: 100
 --- !u!54 &7687947276004497085
 Rigidbody:
   m_ObjectHideFlags: 0
