@@ -613,6 +613,8 @@ GameObject:
   - component: {fileID: 2101152132682974748}
   - component: {fileID: 1922985690247593847}
   - component: {fileID: 2664881065266463440}
+  - component: {fileID: 327153316784961723}
+  - component: {fileID: 1365623802197972952}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -750,16 +752,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a35c3dbb9a7beb4faf6c613f93b909a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 100
+  MoveSpeed: 5
+  RunSpeed: 10
+  MouseSensitivity: 500
+  JumpHeight: 2
+  ShakingAmount: 0.2
+  ShakingSpeed: 20
+  AttackDamage: 1
+  DamageOverlay: {fileID: 0}
+  DamageOverlayDuration: 0.5
+--- !u!114 &327153316784961723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5570849380737313540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0353097fd37f94baed4f04418b83e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
   maxHealth: 100
-  moveSpeed: 5
-  runSpeed: 10
-  mouseSensitivity: 250
-  jumpHeight: 1
-  shakingAmount: 0.2
-  shakingSpeed: 20
-  attackDamage: 1
-  damageOverlay: {fileID: 7589227472276455924}
-  damageOverlayDuration: 1
+  hunger: 0
+  maxHunger: 100
+  autoDecreaseHunger: 10
+  thirst: 0
+  maxThirst: 100
+  autoDecreaseThirst: 20
+--- !u!114 &1365623802197972952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5570849380737313540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c7829d7128c99441a715c2b26463c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 16
+  conditions: {fileID: 0}
 --- !u!1 &5821066136896866377
 GameObject:
   m_ObjectHideFlags: 0
