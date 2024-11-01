@@ -1,36 +1,30 @@
 using UnityEngine;
 using System.Collections;
 
-public class Bear : MonoBehaviour 
+public class Bear : Monster
 {
-    public Transform Player;  
-    public float DetectionRange = 10f; 
-    public float MoveSpeed = 20f;  
-    public float AttackRange = 2.3f; 
-    public float AttackSpeed = 1f;
-    private float _lastAttackTime;  
-
-    private Animator _animator; 
-    private Rigidbody _rb;  
+    public Transform Player;
+    public float DetectionRange = 10f;
+    private float _lastAttackTime;
+    private Animator _animator;
+    private Rigidbody _rb;
     private enum State { Idle, Chasing, Attacking, Dead }
     private State _currentState;
 
-    public float MaxHealth = 100f; 
-    private float _currentHealth; 
-
     private void Start()
     {
-        _animator = GetComponent<Animator>();  
-        _rb = GetComponent<Rigidbody>(); 
-        _currentState = State.Idle; 
-        _currentHealth = MaxHealth; 
+        _animator = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody>();
+        _currentState = State.Idle;
+
+        Initialize(100f, 10f, 20f, 1f, 2.3f); // 체력, 공격력, 이동속도, 공격속도, 공격범위
     }
 
     private void Update()
     {
         if (_currentState == State.Dead)
         {
-            return; 
+            return;
         }
 
         float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
@@ -47,7 +41,7 @@ public class Bear : MonoBehaviour
             case State.Chasing:
                 if (distanceToPlayer < AttackRange)
                 {
-                    _currentState = State.Attacking;  
+                    _currentState = State.Attacking;
                 }
                 else if (distanceToPlayer > DetectionRange)
                 {
@@ -57,7 +51,7 @@ public class Bear : MonoBehaviour
                 }
                 else
                 {
-                    MoveTowardsPlayer(distanceToPlayer);  
+                    MoveTowardsPlayer(distanceToPlayer);
                 }
                 break;
 
@@ -69,22 +63,17 @@ public class Bear : MonoBehaviour
                 }
                 break;
         }
-
-        if (_currentHealth <= 0)
-        {
-            Die(); 
-        }
     }
 
     private void MoveTowardsPlayer(float distanceToPlayer)
     {
-        Vector3 direction = (Player.position - transform.position).normalized; 
-        direction.y = 0; 
+        Vector3 direction = (Player.position - transform.position).normalized;
+        direction.y = 0;
 
-        _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime); 
+        _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime);
 
-        Quaternion lookRotation = Quaternion.LookRotation(direction);  
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);  
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);
 
         _animator.SetBool("RunForward", true);
         _animator.SetBool("Idle", false);
@@ -96,56 +85,51 @@ public class Bear : MonoBehaviour
 
         if (distanceToPlayer <= AttackRange && Time.time >= _lastAttackTime + AttackSpeed)
         {
-            _animator.SetBool("Attack3", true);  
+            _animator.SetBool("Attack3", true);
             Debug.Log("공격했습니다");
 
             Player playerScript = Player.GetComponent<Player>();
             if (playerScript != null)
             {
-                float damage = 10f;  
-                playerScript.TakeDamage(damage);  
+                playerScript.TakeDamage(AttackDamage); 
             }
 
-            _lastAttackTime = Time.time; 
-            StartCoroutine(WaitForAttackAnimation());  
+            _lastAttackTime = Time.time;
+            StartCoroutine(WaitForAttackAnimation());
         }
     }
 
     private IEnumerator WaitForAttackAnimation()
     {
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length); 
+        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
-        _currentHealth -= damage; 
-        Debug.Log("몬스터가 " + damage + " 데미지를 받았습니다. 현재 체력: " + _currentHealth);
+        base.TakeDamage(damage);  
 
-        if (_currentHealth <= 0)
+        if (Health <= 0)
         {
-            Die();  
+            Die();
         }
     }
 
-    private void Die()
+    protected override void Die()
     {
         _animator.SetBool("RunForward", false);
         _animator.SetBool("Idle", false);
         _animator.SetBool("Attack3", false);
+        _animator.SetBool("Death", true);
 
-        _animator.SetBool("Death", true); 
-        _currentState = State.Dead;  
-        Debug.Log("몬스터가 죽었습니다.");
-
-        StartCoroutine(WaitForDeathAnimation()); 
+        _currentState = State.Dead;
+        Debug.Log("곰이 죽었습니다.");
+        StartCoroutine(WaitForDeathAnimation());
     }
 
     private IEnumerator WaitForDeathAnimation()
     {
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length); 
-
-        yield return new WaitForSeconds(3f); 
-
+        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
 }

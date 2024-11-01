@@ -107,8 +107,7 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("감지 : " + hit.transform.name);  // 임시로 좌클릭시 콘솔
 
-                // 몬스터 체크
-                Bear monster = hit.transform.GetComponent<Bear>();
+                Monster monster = hit.transform.GetComponent<Monster>();
                 if (monster != null)
                 {
                     // 몬스터에게 데미지 주기
