@@ -28,7 +28,10 @@ public class Player : MonoBehaviour
     // 받는 데미지 변수
     public Image DamageOverlay;  // UI Image
     public float DamageOverlayDuration = 0.5f;  // 화면 빨개지는 지속시간
-
+    private void Awake()
+    {
+        CharacterManager.Instance.Player=this;
+    }
     void Start()
     {
         _currentHealth = MaxHealth;  // 현재 체력을 최대 체력으로 초기화
