@@ -75,7 +75,6 @@ GameObject:
   - component: {fileID: 8074758434618891232}
   - component: {fileID: 5609050782067598861}
   - component: {fileID: 7687947276004497085}
-  - component: {fileID: 8267872074030123724}
   m_Layer: 0
   m_Name: Bear
   m_TagString: Untagged
@@ -135,10 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 5061242123769549815, guid: 95ae53d2978d02c409abcacd83e26443, type: 3}
   DetectionRange: 5
-  MoveSpeed: 20
-  AttackRange: 2.3
-  AttackSpeed: 1
-  MaxHealth: 100
+  IdleMovementRange: 5
+  IdleMovementInterval: 3
 --- !u!54 &7687947276004497085
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -166,29 +163,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!136 &8267872074030123724
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 294204251489203764}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.91
-  m_Height: 0.61
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0.02}
 --- !u!1 &305617170804887301
 GameObject:
   m_ObjectHideFlags: 0
