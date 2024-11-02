@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class Bear : Monster
+public class Dinosaur : Monster
 {
     public Transform Player;
-    public float DetectionRange = 10f;
-    public float IdleMovementRange = 3f; 
-    public float IdleMovementInterval = 3f; 
+    public float DetectionRange = 12f;
+    public float IdleMovementRange = 5f;
+    public float IdleMovementInterval = 4f;
 
     private float _lastAttackTime;
     private Animator _animator;
@@ -16,7 +16,7 @@ public class Bear : Monster
 
     private Vector3 _wanderTarget;
     private float _wanderTimer;
-    private float _wanderDuration = 2f; 
+    private float _wanderDuration = 5f; 
     private float _wanderTimeElapsed;
 
     private void Start()
@@ -25,7 +25,7 @@ public class Bear : Monster
         _rb = GetComponent<Rigidbody>();
         _currentState = State.Idle;
 
-        Initialize(100f, 10f, 20f, 1f, 2.3f); 
+        Initialize(500f, 50f, 30f, 1f, 4.5f); // 체력, 공격력, 이동속도, 공격속도, 공격범위
 
         SetWanderTarget();
     }
@@ -43,10 +43,10 @@ public class Bear : Monster
         {
             case State.Idle:
                 _animator.SetBool("Idle", true);
-                _animator.SetBool("WalkForward", false); 
+                _animator.SetBool("Walk", false);
                 if (distanceToPlayer < DetectionRange)
                 {
-                    _currentState = State.Chasing;  // 추적
+                    _currentState = State.Chasing;  
                 }
                 else
                 {
@@ -70,9 +70,9 @@ public class Bear : Monster
                 break;
 
             case State.Chasing:
-                _animator.SetBool("Idle", false); 
-                _animator.SetBool("WalkForward", false); 
-                _animator.SetBool("RunForward", true); 
+                _animator.SetBool("Idle", false);
+                _animator.SetBool("Walk", false);
+                _animator.SetBool("Run", true);
                 if (distanceToPlayer < AttackRange)
                 {
                     _currentState = State.Attacking;
@@ -80,8 +80,8 @@ public class Bear : Monster
                 else if (distanceToPlayer > DetectionRange)
                 {
                     _currentState = State.Idle; 
-                    _animator.SetBool("RunForward", false); 
-                    _animator.SetBool("Idle", true); 
+                    _animator.SetBool("Run", false);
+                    _animator.SetBool("Idle", true);
                 }
                 else
                 {
@@ -93,7 +93,7 @@ public class Bear : Monster
                 AttackPlayer();
                 if (distanceToPlayer > AttackRange)
                 {
-                    _currentState = State.Chasing; // 다시 추적
+                    _currentState = State.Chasing;
                 }
                 break;
         }
@@ -119,14 +119,14 @@ public class Bear : Monster
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);
 
-        _animator.SetBool("WalkForward", true); 
-        _animator.SetBool("Idle", false); 
+        _animator.SetBool("Walk", true);
+        _animator.SetBool("Idle", false);
     }
 
     private void SetWanderTarget()
     {
         _wanderTarget = transform.position + new Vector3(Random.Range(-IdleMovementRange, IdleMovementRange), 0, Random.Range(-IdleMovementRange, IdleMovementRange));
-        _wanderTimer = IdleMovementInterval;
+        _wanderTimer = IdleMovementInterval; 
     }
 
     private void MoveTowardsPlayer(float distanceToPlayer)
@@ -139,8 +139,8 @@ public class Bear : Monster
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);
 
-        _animator.SetBool("WalkForward", false); 
-        _animator.SetBool("RunForward", true);
+        _animator.SetBool("Walk", false);
+        _animator.SetBool("Run", true);
     }
 
     private void AttackPlayer()
@@ -149,7 +149,8 @@ public class Bear : Monster
 
         if (distanceToPlayer <= AttackRange && Time.time >= _lastAttackTime + AttackSpeed)
         {
-            _animator.SetBool("Attack3", true);
+            _animator.SetBool("Attack", true);
+            _animator.SetBool("Run", false);
             Debug.Log("공격했습니다");
 
             Player playerScript = Player.GetComponent<Player>();
@@ -166,6 +167,7 @@ public class Bear : Monster
     private IEnumerator WaitForAttackAnimation()
     {
         yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        _animator.SetBool("Attack", false); 
     }
 
     public override void TakeDamage(float damage)
@@ -180,21 +182,20 @@ public class Bear : Monster
 
     protected override void Die()
     {
-        _animator.SetBool("RunForward", false);
+        _animator.SetBool("Run", false);
         _animator.SetBool("Idle", false);
-        _animator.SetBool("WalkForward", false);
-        _animator.SetBool("Attack3", false);
+        _animator.SetBool("Walk", false);
+        _animator.SetBool("Attack", false);
         _animator.SetBool("Death", true);
 
         _currentState = State.Dead;
-        Debug.Log("곰이 죽었습니다.");
+        Debug.Log("공룡이 죽었습니다.");
         StartCoroutine(WaitForDeathAnimation());
     }
 
     private IEnumerator WaitForDeathAnimation()
     {
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.7f);
         Destroy(gameObject);
     }
 }
