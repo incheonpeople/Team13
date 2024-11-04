@@ -30,6 +30,7 @@ public class UIInventory : MonoBehaviour
     void Start()
     {
         player = CharacterManager.Instance.Player;
+        conditions = player.conditions;
 
         player.inventory += Toggle;
 
@@ -86,5 +87,9 @@ public class UIInventory : MonoBehaviour
     void Additem()
     {
         ItemData data = CharacterManager.Instance.Player.itemData;
+    }
+    ItemSlot GetItemStacl(ItemData data)
+    {
+        return null;
     }
 }

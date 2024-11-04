@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     private float _xRotation = 0f;  // 카메라 회전 각도
     private Camera _playerCamera;  // 플레이어 카메라
-
+    bool canLook = true;
     public float ShakingAmount = 0.2f;  // 달리기 시 화면 흔들기 크기
     public float ShakingSpeed = 20f;  // 달리기 시 흔들기 속도
     private float _originalCameraY;  // 원래 카메라 Y 위치
@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     // 받는 데미지 변수
     public Image DamageOverlay;  // UI Image
     public float DamageOverlayDuration = 0.5f;  // 화면 빨개지는 지속시간
+
+    public PlayerConditions conditions;
     private void Awake()
     {
         CharacterManager.Instance.Player=this;
@@ -69,7 +71,7 @@ public class Player : MonoBehaviour
 
         OnInventory();
 
-        if (Mathf.Abs(mouseX) > 0.01f || Mathf.Abs(mouseY) > 0.01f)  // 마우스 움직임이 있는 경우에만 회전
+        if ((Mathf.Abs(mouseX) > 0.01f || Mathf.Abs(mouseY) > 0.01f) && canLook)  // 마우스 움직임이 있는 경우에만 회전
         {
             mouseX *= MouseSensitivity * Time.deltaTime;
             mouseY *= MouseSensitivity * Time.deltaTime;
@@ -180,5 +182,6 @@ public class Player : MonoBehaviour
     {
         bool toggle = Cursor.lockState == CursorLockMode.Locked;
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked ;
+        canLook = !toggle;
     }
 }

@@ -19,6 +19,7 @@ public class PlayerConditions : MonoBehaviour
     [SerializeField] public float autoDecreaseThirst;
     private void Start()
     {
+        CharacterManager.Instance.Player.conditions = this;
         health = maxHealth;
         hunger = maxHunger;
         thirst = maxThirst;
