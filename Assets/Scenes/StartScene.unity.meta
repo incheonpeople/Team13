@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/StartScene.unity.meta
 guid: 73f95078e0f0e2844a6cdcfae39fa774
+========
+guid: dbc359640301f834fae70a7c43403e20
+>>>>>>>> dev:Assets/Scenes/JDS_Scene.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

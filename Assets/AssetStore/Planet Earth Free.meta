@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/AssetStore/Planet Earth Free.meta
 guid: 725f409455fc47d47be266448fa58ffa
+========
+guid: 95ea6fdad02abd44a8f8efd645cb9e7a
+>>>>>>>> dev:Assets/AssetStore/Low Poly Nature Pack Lite.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class Player : MonoBehaviour
 {
+    public ItemData itemData;
+    public Action addItem;
+
     public float MaxHealth = 100f;  // 최대 체력
     private float _currentHealth;  // 현재 체력
 
