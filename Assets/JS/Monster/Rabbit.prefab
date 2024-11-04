@@ -206,7 +206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1694546549880316094
 Transform:
   m_ObjectHideFlags: 0
@@ -308,6 +308,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdffe03b06e7a6e4198c18473f40cdad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 0
+  AttackDamage: 0
+  MoveSpeed: 0
+  AttackSpeed: 0
+  AttackRange: 0
   Player: {fileID: 0}
   DetectionRange: 4
   IdleMovementRange: 3

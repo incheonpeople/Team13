@@ -752,16 +752,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a35c3dbb9a7beb4faf6c613f93b909a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemData: {fileID: 0}
   MaxHealth: 100
   MoveSpeed: 5
   RunSpeed: 10
-  MouseSensitivity: 500
+  MouseSensitivity: 200
   JumpHeight: 2
   ShakingAmount: 0.2
   ShakingSpeed: 20
   AttackDamage: 1
-  DamageOverlay: {fileID: 0}
+  DamageOverlay: {fileID: 7589227472276455924}
   DamageOverlayDuration: 0.5
+  conditions: {fileID: 0}
 --- !u!114 &327153316784961723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,10 +796,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c7829d7128c99441a715c2b26463c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer:
+  layerMask:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 0
   conditions: {fileID: 0}
+  maxCheckDistance: 0
 --- !u!1 &5821066136896866377
 GameObject:
   m_ObjectHideFlags: 0

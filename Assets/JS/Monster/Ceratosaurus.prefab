@@ -848,7 +848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2145309955180721044
 Transform:
   m_ObjectHideFlags: 0
@@ -947,10 +947,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f140f4054cb998b4092d933dbf8ced90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 0
+  AttackDamage: 0
+  MoveSpeed: 0
+  AttackSpeed: 0
+  AttackRange: 0
   Player: {fileID: 0}
   DetectionRange: 15
   IdleMovementRange: 5
   IdleMovementInterval: 4
+  MonsterLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1822952997241377861
 GameObject:
   m_ObjectHideFlags: 0
