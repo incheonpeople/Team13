@@ -872,6 +872,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &1432232151874803365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,6 +1732,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &2731763508249809988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,6 +2022,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &3237818329658833948
 GameObject:
   m_ObjectHideFlags: 0
@@ -2582,6 +2597,7 @@ GameObject:
   - component: {fileID: 3074405864948639869}
   - component: {fileID: 4745585544838441022}
   - component: {fileID: 1359869621736972241}
+  - component: {fileID: 6045546542688542434}
   m_Layer: 5
   m_Name: UIInventory
   m_TagString: Untagged
@@ -2596,7 +2612,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3925280973843597681}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2673,6 +2689,32 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6045546542688542434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925280973843597681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c09e17496a879d46941c2f33eda7217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slots: []
+  inventoryWindow: {fileID: 3925280973843597681}
+  slotPanel: {fileID: 765581629356164686}
+  selectedItemName: {fileID: 1362085691140490549}
+  selectedItemDescription: {fileID: 4081009384196180828}
+  selectedItemStatName: {fileID: 7161114480635933252}
+  selectedItemStatValue: {fileID: 2093543100653360271}
+  useButton: {fileID: 120125984089741803}
+  equipButton: {fileID: 4525552604866227276}
+  unequipButton: {fileID: 669215830520044454}
+  dropButton: {fileID: 7282973040430621049}
+  fillBottleButton: {fileID: 7235077839775180313}
+  grilledMeatButton: {fileID: 4303151638403099956}
+  DrinkingButton: {fileID: 7156025577262309654}
 --- !u!1 &4003385409972521680
 GameObject:
   m_ObjectHideFlags: 0
@@ -2824,6 +2866,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &4199102549271403782
 GameObject:
   m_ObjectHideFlags: 0
@@ -2975,6 +3022,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &4226939355405515308
 GameObject:
   m_ObjectHideFlags: 0
@@ -3126,6 +3178,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &4303151638403099956
 GameObject:
   m_ObjectHideFlags: 0
@@ -3532,6 +3589,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &4525552604866227276
 GameObject:
   m_ObjectHideFlags: 0
@@ -4224,6 +4286,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &5519897752814063479
 GameObject:
   m_ObjectHideFlags: 0
@@ -4451,6 +4518,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &5568829141090709263
 GameObject:
   m_ObjectHideFlags: 0
@@ -4951,6 +5023,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &6329552940450918691
 GameObject:
   m_ObjectHideFlags: 0
@@ -5510,6 +5587,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &6957754508835969145
 GameObject:
   m_ObjectHideFlags: 0
@@ -6371,6 +6453,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &7908297686918683410
 GameObject:
   m_ObjectHideFlags: 0
@@ -6658,6 +6745,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &8084954046395417095
 GameObject:
   m_ObjectHideFlags: 0
@@ -7020,6 +7112,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0c5fdd2b3c3b44a9a02a93dff7ad4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  inventory: {fileID: 0}
+  index: 0
+  equipped: 0
+  quantity: 0
 --- !u!1 &8509157640159435529
 GameObject:
   m_ObjectHideFlags: 0
