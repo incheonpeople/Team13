@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     private float _xRotation = 0f;  // 카메라 회전 각도
     private Camera _playerCamera;  // 플레이어 카메라
     bool canLook = true;
+
     public float ShakingAmount = 0.2f;  // 달리기 시 화면 흔들기 크기
     public float ShakingSpeed = 20f;  // 달리기 시 흔들기 속도
     private float _originalCameraY;  // 원래 카메라 Y 위치
@@ -36,6 +37,8 @@ public class Player : MonoBehaviour
     public float DamageOverlayDuration = 0.5f;  // 화면 빨개지는 지속시간
 
     public PlayerConditions conditions;
+
+    public Transform dropItemPos;
     private void Awake()
     {
         CharacterManager.Instance.Player=this;
