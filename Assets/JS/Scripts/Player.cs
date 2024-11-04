@@ -2,11 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     public ItemData itemData;
     public Action addItem;
+    public Action inventory;
 
     public float MaxHealth = 100f;  // 최대 체력
     private float _currentHealth;  // 현재 체력
@@ -58,11 +60,14 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+
         if (_playerCamera == null) return;  // 카메라가 없으면 종료
 
         // 마우스 회전 (화면 회전)
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
+
+        OnInventory();
 
         if (Mathf.Abs(mouseX) > 0.01f || Mathf.Abs(mouseY) > 0.01f)  // 마우스 움직임이 있는 경우에만 회전
         {
@@ -160,5 +165,20 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    //tab키 누르면 인벤토리가 열리게 함
+    public void OnInventory()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+                inventory?.Invoke();
+                ToggleCursor();
+        }
+    }
+    void ToggleCursor()
+    {
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked ;
     }
 }
