@@ -197,12 +197,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1694546549880316094}
   - component: {fileID: 5190465854874023051}
-  - component: {fileID: 7842427371970171920}
   - component: {fileID: 6520467852338091550}
   - component: {fileID: 4057861473632673036}
+  - component: {fileID: -5520193078181771998}
   m_Layer: 0
   m_Name: Rabbit
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -246,20 +246,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7842427371970171920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208656311177065854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdffe03b06e7a6e4198c18473f40cdad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  DetectionRange: 2
 --- !u!54 &6520467852338091550
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -310,6 +296,25 @@ CapsuleCollider:
   m_Height: 0.38
   m_Direction: 1
   m_Center: {x: 0, y: 0.31, z: 0}
+--- !u!114 &-5520193078181771998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208656311177065854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdffe03b06e7a6e4198c18473f40cdad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  DetectionRange: 4
+  IdleMovementRange: 3
+  IdleMovementInterval: 3
+  EscapeSpeed: 10
+  PushBackForce: 2
+  LiftForce: 1
 --- !u!1 &1246899985883596801
 GameObject:
   m_ObjectHideFlags: 0

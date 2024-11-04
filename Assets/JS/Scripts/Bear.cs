@@ -178,7 +178,7 @@ public class Bear : Monster
         }
     }
 
-    protected override void Die()
+    public override void Die()
     {
         _animator.SetBool("RunForward", false);
         _animator.SetBool("Idle", false);
