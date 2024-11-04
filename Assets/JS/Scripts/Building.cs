@@ -50,50 +50,46 @@ public class Building : MonoBehaviour
         Vector3 forward = Camera.main.transform.forward;
         Vector3 targetPosition = Camera.main.transform.position + forward * placementRange;
 
-        bool isValidPosition = false; // 설치 가능 여부 초기화
+        bool isValidPosition = false; 
 
         if (Physics.Raycast(ray, out hit))
         {
             targetPosition = hit.point;
 
-            // "Floor" 태그를 가진 오브젝트인지 확인
             if (hit.collider.CompareTag("Floor"))
             {
-                isValidPosition = true; // 설치 가능
+                isValidPosition = true; 
             }
         }
 
-        // 청사진 위치 설정
         currentBlueprint.transform.position = targetPosition;
 
-        // 마우스 휠로 회전
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
-            currentBlueprint.transform.Rotate(Vector3.up, scroll * 100f); // 회전 속도 조정
+            currentBlueprint.transform.Rotate(Vector3.up, scroll * 100f); 
         }
 
-        // 재질 설정
+
         if (isValidPosition)
         {
-            SetBlueprintMaterial(currentBlueprint, transparentMaterial); // 설치 가능
+            SetBlueprintMaterial(currentBlueprint, transparentMaterial); 
         }
         else
         {
-            SetBlueprintMaterial(currentBlueprint, invalidPlacementMaterial); // 설치 불가 시 머티리얼 설정
+            SetBlueprintMaterial(currentBlueprint, invalidPlacementMaterial); 
         }
     }
 
     void PlaceBlueprint()
     {
-        // 설치가 가능한 경우에만 배치
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (currentBlueprint != null && Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Floor"))
         {
             GameObject placedObject = Instantiate(currentBlueprint);
-            SetBlueprintMaterial(placedObject, opaqueMaterial); // 불투명
+            SetBlueprintMaterial(placedObject, opaqueMaterial);
 
             AddColliderToObject(placedObject);
 
@@ -103,11 +99,9 @@ public class Building : MonoBehaviour
 
     void AddColliderToObject(GameObject obj)
     {
-        // 메쉬 콜라이더 추가
         MeshCollider meshCollider = obj.AddComponent<MeshCollider>();
-        meshCollider.convex = false; // Convex를 false로 설정
+        meshCollider.convex = false; 
 
-        // 메쉬 설정 - blueprintPrefab의 메쉬를 가져오는 방식
         MeshFilter meshFilter = obj.GetComponent<MeshFilter>();
         if (meshFilter != null)
         {
