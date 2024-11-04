@@ -17,10 +17,24 @@ public enum ConsumableType
     thirst
 }
 
+public enum EquipableType
+{
+    Damaga,
+    Defend,
+    Speed
+}
+
 [Serializable]
 public class ItemDataConsumable
 {
     public ConsumableType type;
+    public float value;
+}
+
+[Serializable]
+public class ItemDataEquipable
+{
+    public EquipableType type;
     public float value;
 }
 
@@ -40,4 +54,7 @@ public class ItemData : ScriptableObject
 
     [Header("Consumable")]
     public ItemDataConsumable[] consumables;
+
+    [Header("Equipable")]
+    public ItemDataEquipable[] equipables; 
 }

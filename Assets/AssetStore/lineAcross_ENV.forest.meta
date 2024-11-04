@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/AssetStore/lineAcross_ENV.forest.meta
 guid: 243f6b0c561b9e1409683ec477a6ff9f
+========
+guid: 453b95096346f8149a9e9ef83d560b36
+>>>>>>>> dev:Assets/Scripts/LvDesign.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/JS/Scene/TestScene.unity.meta
 guid: 9314141d52c2c6b4e9c24e694f6c727b
+========
+guid: 00fa756fbcb176c49b5d2253c77cccac
+>>>>>>>> dev:Assets/LowPolyTropicalEnvironment_LITE/TropicalEnvironmentLite_2021.3.0_URP_1.0.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

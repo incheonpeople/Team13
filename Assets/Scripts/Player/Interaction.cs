@@ -47,6 +47,15 @@ public class Interaction : MonoBehaviour
                 promptText.gameObject.SetActive(false);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.E) && curInteractGameObject != null && curInteractable != null
+    && curInteractGameObject.layer == LayerMask.NameToLayer("Interactable"))
+        {
+            curInteractable.OnInteract();
+            curInteractGameObject = null;
+            curInteractable = null;
+            promptText.gameObject.SetActive(false);
+        }
     }
         
 

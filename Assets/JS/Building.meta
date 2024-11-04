@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/JS/Building.meta
 guid: 56b60c77935c90a41a8bda29e6a7d079
+========
+guid: 2796d1aa55434c84eb9a45d20ab0ee05
+>>>>>>>> dev:Assets/Scripts/LvDesign/New Folder.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
