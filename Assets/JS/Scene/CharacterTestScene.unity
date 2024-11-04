@@ -150,6 +150,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rabbit
       objectReference: {fileID: 0}
+    - target: {fileID: 1208656311177065854, guid: e38552baa7ae84a42a1d2d44380e117a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1694546549880316094, guid: e38552baa7ae84a42a1d2d44380e117a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.55
@@ -286,6 +290,10 @@ PrefabInstance:
     - target: {fileID: 1625373564328192302, guid: ac783e4585168924abf1f6e2dcb21617, type: 3}
       propertyPath: m_Name
       value: Ceratosaurus
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625373564328192302, guid: ac783e4585168924abf1f6e2dcb21617, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2145309955180721044, guid: ac783e4585168924abf1f6e2dcb21617, type: 3}
       propertyPath: m_LocalPosition.x
@@ -607,6 +615,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1937736805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1937736806}
+  - component: {fileID: 1937736807}
+  m_Layer: 0
+  m_Name: CampFire
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1937736806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937736805}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.480231, y: 0.2759515, z: 11.950159}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1937736807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937736805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4637d5eeb68925941bc3130396fc7958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueprintPrefab: {fileID: 612613069605213803, guid: 96c03c833d8984b4b93bff28a5696f66, type: 3}
+  transparentMaterial: {fileID: 2100000, guid: 12e3393969c3ced44a26bccc39798c1a, type: 2}
+  opaqueMaterial: {fileID: 2100000, guid: 8a20c3a7306f1f04aa48f93c5e4fd207, type: 2}
+  placementRange: 4
 --- !u!1001 &2331833115377915611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -707,6 +763,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5570849380737313540, guid: 95ae53d2978d02c409abcacd83e26443, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5821066136896866377, guid: 95ae53d2978d02c409abcacd83e26443, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -739,6 +799,10 @@ PrefabInstance:
     - target: {fileID: 294204251489203764, guid: 59789757ba695f7499ea9ee24b450dee, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 294204251489203764, guid: 59789757ba695f7499ea9ee24b450dee, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 294204251489203764, guid: 59789757ba695f7499ea9ee24b450dee, type: 3}
       propertyPath: m_TagString
@@ -1120,3 +1184,4 @@ SceneRoots:
   - {fileID: 1913521482}
   - {fileID: 1119575402}
   - {fileID: 1653772823}
+  - {fileID: 1937736806}
