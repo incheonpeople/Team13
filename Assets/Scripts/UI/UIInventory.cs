@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class UIInventory : MonoBehaviour
 {
@@ -10,6 +13,7 @@ public class UIInventory : MonoBehaviour
     public GameObject inventoryWindow;
     public Transform slotPanel;
     public Transform dropPostion;
+
     [Header("Select Item")]
     public TextMeshProUGUI selectedItemName;
     public TextMeshProUGUI selectedItemDescription;
@@ -24,14 +28,17 @@ public class UIInventory : MonoBehaviour
     public GameObject DrinkingButton;
 
     private Player player;
-    private PlayerConditions conditions;
+    [SerializeField] private PlayerConditions conditions;
 
+    ItemData selectedItem;
+    int selectedItemIndex = 0;
 
     void Start()
     {
         player = CharacterManager.Instance.Player;
-        conditions = player.conditions;
+        conditions = CharacterManager.Instance.Player.conditions;
         dropPostion = CharacterManager.Instance.Player.dropItemPos;
+        CharacterManager.Instance.Player.addItem += Additem;
         player.inventory += Toggle;
 
         inventoryWindow.SetActive(false);
@@ -90,6 +97,7 @@ public class UIInventory : MonoBehaviour
         ItemData data = CharacterManager.Instance.Player.itemData;
         if (data.canStack)
         {
+            Debug.Log("인벤토리 스택 추가");
             ItemSlot slot = GetItemStack(data);
             if(slot != null)
             {
@@ -103,6 +111,7 @@ public class UIInventory : MonoBehaviour
 
         if(emptySlot != null)
         {
+            Debug.Log("인벤토리 추가");
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
@@ -116,7 +125,7 @@ public class UIInventory : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++) 
         {
-            if(slots[i] != null)
+            if(slots[i].item != null)
             {
                 slots[i].Set();
             }
@@ -150,6 +159,87 @@ public class UIInventory : MonoBehaviour
     }
     void ThrowItem(ItemData data)
     {
-        Instantiate(data.dropPrefab, dropPostion.position, Quaternion.Euler(Vector3.one * Random.value * 360));
+        Instantiate(data.dropPrefab, dropPostion.position, Quaternion.Euler(Vector3.one * UnityEngine.Random.value * 360));
+    }
+
+    public void SelectItem(int index)
+    {
+        if (slots[index].item == null) return;
+
+        selectedItem = slots[index].item;   
+        selectedItemIndex = index;
+
+        selectedItemName.text = selectedItem.displayName;
+        selectedItemDescription.text = selectedItem.description;
+
+        selectedItemStatName.text = string.Empty;
+        selectedItemStatValue.text = string.Empty;
+
+        for (int i = 0; i < selectedItem.consumables.Length; i++)
+        {
+            selectedItemStatName.text += selectedItem.consumables[i].type.ToString()+ "\n";
+            selectedItemStatValue.text += selectedItem.consumables[i].value.ToString() + "\n";
+        }  
+        useButton.SetActive(selectedItem.type == ItemType.Consumable);
+        equipButton.SetActive(selectedItem.type == ItemType.Consumable && slots[index].equipped);
+        unequipButton.SetActive(selectedItem.type == ItemType.Consumable && slots[index].equipped);
+        dropButton.SetActive(true);
+    }
+
+    public void OnUseButton()
+    {
+        if (selectedItem == null)
+        {
+            Debug.LogWarning("선택된 아이템이 없습니다.");
+            return;
+        }
+
+        if (conditions == null)
+        {
+            Debug.LogError("Conditions 객체가 초기화되지 않았습니다.");
+            return;
+        }
+        if (selectedItem.type == ItemType.Consumable)
+        {
+            for (int i = 0; i < selectedItem.consumables.Length; i++)
+            {
+                switch (selectedItem.consumables[i].type)
+                {
+                    case ConsumableType.health:
+                        conditions.health += selectedItem.consumables[i].value;
+                        break;
+                    case ConsumableType.hunger:
+                        conditions.hunger += selectedItem.consumables[i].value;
+                        break;
+                    case ConsumableType.thirst:
+                        conditions.thirst += selectedItem.consumables[i].value;
+                        break;
+                }
+            }
+            RemoveSelectedItem();
+        }
+        else
+        {
+            Debug.LogWarning("소모 가능한 아이템이 없거나 잘못된 타입입니다.");
+        }
+    }
+
+    public void OnDropButton()
+    {
+        ThrowItem(selectedItem);
+        RemoveSelectedItem();
+    }
+
+    void RemoveSelectedItem()
+    {
+        slots[selectedItemIndex].quantity--;
+        if(slots[selectedItemIndex].quantity <= 0)
+        {
+            selectedItem = null;
+            slots[selectedItemIndex].item = null;
+            selectedItemIndex = -1;
+            ClearSelectedItemWindow();
+        }
+        UpdateUI();
     }
 }

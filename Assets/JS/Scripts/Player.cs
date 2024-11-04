@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         CharacterManager.Instance.Player=this;
+        conditions = gameObject.GetComponent<PlayerConditions>();
     }
     void Start()
     {

@@ -48,7 +48,8 @@ public class Interaction : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && curInteractGameObject != null && curInteractable != null
+    && curInteractGameObject.layer == LayerMask.NameToLayer("Interactable"))
         {
             curInteractable.OnInteract();
             curInteractGameObject = null;

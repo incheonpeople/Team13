@@ -15,24 +15,39 @@ public class ItemSlot : MonoBehaviour
     public UIInventory inventory;
 
     public int index;
-    public bool equipped;
+    public bool equipped = false;
     public int quantity;
 
-    void Start()
+    void Awake()
     {
         outline = GetComponent<Outline>();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        if (outline != null)
+        {
+            outline.enabled = equipped;
+        }
     }
     public void Set()
     {
+        icon.gameObject.SetActive(true);
+        icon.sprite = item.icon;
+        quantityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
+
+        if (outline != null)
+        {
+            outline.enabled = equipped; 
+        }
     }
     public void Clear()
     {
-
+        item = null;
+        icon.gameObject.SetActive(false);       
+        quantityText.text = string.Empty;
+    }
+    public void OnClickButton()
+    {
+        inventory.SelectItem(index);
     }
 }
