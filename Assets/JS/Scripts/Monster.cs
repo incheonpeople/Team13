@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    protected float Health;          // 체력
-    protected float AttackDamage;    // 공격력
-    protected float MoveSpeed;        // 이동속도
-    protected float AttackSpeed;      // 공격속도
-    protected float AttackRange;      // 공격범위
+    public float Health;          // 체력
+    public float AttackDamage;    // 공격력
+    public float MoveSpeed;        // 이동속도
+    public float AttackSpeed;      // 공격속도
+    public float AttackRange;      // 공격범위
 
     public virtual void Initialize(float health, float attackDamage, float moveSpeed, float attackSpeed, float attackRange)
     {
@@ -19,18 +19,18 @@ public class Monster : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
-        Health -= damage;  
+        Health -= damage;
         Debug.Log(gameObject.name + "가 " + damage + " 데미지를 받았습니다. 현재 체력: " + Health);
 
         if (Health <= 0)
         {
-            Die();  
+            Die();
         }
     }
 
-    protected virtual void Die()
+    public virtual void Die() // protected를 public으로 변경
     {
         Debug.Log(gameObject.name + "가 죽었습니다.");
-        Destroy(gameObject); 
+        Destroy(gameObject);
     }
 }

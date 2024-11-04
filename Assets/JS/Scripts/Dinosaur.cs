@@ -7,6 +7,7 @@ public class Dinosaur : Monster
     public float DetectionRange = 12f;
     public float IdleMovementRange = 5f;
     public float IdleMovementInterval = 4f;
+    public LayerMask MonsterLayer; 
 
     private float _lastAttackTime;
     private Animator _animator;
@@ -14,9 +15,10 @@ public class Dinosaur : Monster
     private enum State { Idle, Chasing, Attacking, Dead, Wandering }
     private State _currentState;
 
+    private Transform _currentTarget;
     private Vector3 _wanderTarget;
     private float _wanderTimer;
-    private float _wanderDuration = 5f; 
+    private float _wanderDuration = 5f;
     private float _wanderTimeElapsed;
 
     private void Start()
@@ -44,9 +46,16 @@ public class Dinosaur : Monster
             case State.Idle:
                 _animator.SetBool("Idle", true);
                 _animator.SetBool("Walk", false);
+                _currentTarget = FindClosestMonster(); 
+
                 if (distanceToPlayer < DetectionRange)
                 {
-                    _currentState = State.Chasing;  
+                    _currentTarget = Player; 
+                    _currentState = State.Chasing;
+                }
+                else if (_currentTarget != null)
+                {
+                    _currentState = State.Chasing;
                 }
                 else
                 {
@@ -54,7 +63,7 @@ public class Dinosaur : Monster
                     if (_wanderTimer <= 0)
                     {
                         _currentState = State.Wandering;
-                        _wanderTimeElapsed = 0; 
+                        _wanderTimeElapsed = 0;
                     }
                 }
                 break;
@@ -65,7 +74,7 @@ public class Dinosaur : Monster
 
                 if (_wanderTimeElapsed >= _wanderDuration)
                 {
-                    _currentState = State.Idle; 
+                    _currentState = State.Idle;
                 }
                 break;
 
@@ -73,30 +82,52 @@ public class Dinosaur : Monster
                 _animator.SetBool("Idle", false);
                 _animator.SetBool("Walk", false);
                 _animator.SetBool("Run", true);
-                if (distanceToPlayer < AttackRange)
+                if (_currentTarget != null)
                 {
-                    _currentState = State.Attacking;
-                }
-                else if (distanceToPlayer > DetectionRange)
-                {
-                    _currentState = State.Idle; 
-                    _animator.SetBool("Run", false);
-                    _animator.SetBool("Idle", true);
+                    float distanceToTarget = Vector3.Distance(transform.position, _currentTarget.position);
+                    if (distanceToTarget < AttackRange)
+                    {
+                        _currentState = State.Attacking;
+                    }
+                    else
+                    {
+                        MoveTowardsTarget(_currentTarget.position);
+                    }
                 }
                 else
                 {
-                    MoveTowardsPlayer(distanceToPlayer);
+                    _currentState = State.Idle;
+                    _animator.SetBool("Run", false);
+                    _animator.SetBool("Idle", true);
                 }
                 break;
 
             case State.Attacking:
-                AttackPlayer();
-                if (distanceToPlayer > AttackRange)
+                AttackTarget();
+                if (_currentTarget == null || Vector3.Distance(transform.position, _currentTarget.position) > AttackRange)
                 {
                     _currentState = State.Chasing;
                 }
                 break;
         }
+    }
+
+    private Transform FindClosestMonster()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, DetectionRange, MonsterLayer);
+        Transform closestMonster = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (var collider in hitColliders)
+        {
+            float distance = Vector3.Distance(transform.position, collider.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestMonster = collider.transform;
+            }
+        }
+        return closestMonster;
     }
 
     private void Wander()
@@ -126,12 +157,12 @@ public class Dinosaur : Monster
     private void SetWanderTarget()
     {
         _wanderTarget = transform.position + new Vector3(Random.Range(-IdleMovementRange, IdleMovementRange), 0, Random.Range(-IdleMovementRange, IdleMovementRange));
-        _wanderTimer = IdleMovementInterval; 
+        _wanderTimer = IdleMovementInterval;
     }
 
-    private void MoveTowardsPlayer(float distanceToPlayer)
+    private void MoveTowardsTarget(Vector3 targetPosition)
     {
-        Vector3 direction = (Player.position - transform.position).normalized;
+        Vector3 direction = (targetPosition - transform.position).normalized;
         direction.y = 0;
 
         _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime);
@@ -143,20 +174,34 @@ public class Dinosaur : Monster
         _animator.SetBool("Run", true);
     }
 
-    private void AttackPlayer()
+    private void AttackTarget()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
-
-        if (distanceToPlayer <= AttackRange && Time.time >= _lastAttackTime + AttackSpeed)
+        if (_currentTarget != null && Time.time >= _lastAttackTime + AttackSpeed)
         {
             _animator.SetBool("Attack", true);
             _animator.SetBool("Run", false);
             Debug.Log("공격했습니다");
 
-            Player playerScript = Player.GetComponent<Player>();
-            if (playerScript != null)
+            // 플레이어가 타겟인 경우
+            if (_currentTarget.CompareTag("Player"))
             {
-                playerScript.TakeDamage(AttackDamage);
+                Player player = _currentTarget.GetComponent<Player>();
+                if (player != null)
+                {
+                    player.TakeDamage(AttackDamage);
+                }
+            }
+            else // 다른 몬스터인 경우
+            {
+                Monster targetMonster = _currentTarget.GetComponent<Monster>();
+                if (targetMonster != null)
+                {
+                    targetMonster.TakeDamage(AttackDamage);
+                    if (targetMonster.Health <= 0)
+                    {
+                        _currentTarget = null;
+                    }
+                }
             }
 
             _lastAttackTime = Time.time;
@@ -167,7 +212,7 @@ public class Dinosaur : Monster
     private IEnumerator WaitForAttackAnimation()
     {
         yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
-        _animator.SetBool("Attack", false); 
+        _animator.SetBool("Attack", false);
     }
 
     public override void TakeDamage(float damage)
@@ -180,7 +225,7 @@ public class Dinosaur : Monster
         }
     }
 
-    protected override void Die()
+    public override void Die()
     {
         _animator.SetBool("Run", false);
         _animator.SetBool("Idle", false);

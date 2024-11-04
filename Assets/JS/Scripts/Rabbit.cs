@@ -1,22 +1,24 @@
 using UnityEngine;
 using System.Collections;
 
-public class Rabbit : Monster 
+public class Rabbit : Monster
 {
-    public Transform Player; 
-    public float DetectionRange = 10f;  
-    public float IdleMovementRange = 3f;  
-    public float IdleMovementInterval = 3f;  
-    public float EscapeSpeed = 7.0f; 
+    public Transform Player;
+    public float DetectionRange = 4f;
+    public float IdleMovementRange = 3f;
+    public float IdleMovementInterval = 3f;
+    public float EscapeSpeed = 10.0f;
+    public float PushBackForce = 5f; 
+    public float LiftForce = 2f; 
 
-    private Animator _animator;  
-    private Rigidbody _rb; 
-    private enum State { Idle, Running, Dead }  
-    private State _currentState;  
-    private Vector3 _targetPosition; 
-    private Coroutine _idleMovementCoroutine; 
+    private Animator _animator;
+    private Rigidbody _rb;
+    private enum State { Idle, Running, Dead }
+    private State _currentState;
+    private Vector3 _targetPosition;
+    private Coroutine _idleMovementCoroutine;
 
-    private void Start() 
+    private void Start()
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
@@ -28,7 +30,7 @@ public class Rabbit : Monster
         _idleMovementCoroutine = StartCoroutine(IdleMovementCoroutine());
     }
 
-    private void Update()  
+    private void Update()
     {
         if (_currentState == State.Dead)
         {
@@ -41,7 +43,7 @@ public class Rabbit : Monster
         {
             if (_idleMovementCoroutine != null)
             {
-                StopCoroutine(_idleMovementCoroutine); 
+                StopCoroutine(_idleMovementCoroutine);
                 _idleMovementCoroutine = null;
             }
             _currentState = State.Running;
@@ -63,12 +65,12 @@ public class Rabbit : Monster
         }
     }
 
-    private void MoveAwayFromPlayer()  
+    private void MoveAwayFromPlayer()
     {
         Vector3 direction = (transform.position - Player.position).normalized;
         direction.y = 0;
 
-        _rb.MovePosition(transform.position + direction * EscapeSpeed * Time.deltaTime);  
+        _rb.MovePosition(transform.position + direction * EscapeSpeed * Time.deltaTime);
 
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * EscapeSpeed);
@@ -76,23 +78,23 @@ public class Rabbit : Monster
         SetAnimatorParameters(State.Running);
     }
 
-    private IEnumerator IdleMovementCoroutine()  
+    private IEnumerator IdleMovementCoroutine()
     {
         while (_currentState != State.Dead)
         {
             _targetPosition = transform.position + new Vector3(Random.Range(-IdleMovementRange, IdleMovementRange), 0, Random.Range(-IdleMovementRange, IdleMovementRange));
-            _targetPosition.y = transform.position.y;  
+            _targetPosition.y = transform.position.y;
 
             while (Vector3.Distance(transform.position, _targetPosition) > 0.1f)
             {
                 float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
                 if (distanceToPlayer < DetectionRange)
                 {
-                    yield break; 
+                    yield break;
                 }
 
                 Vector3 direction = (_targetPosition - transform.position).normalized;
-                direction.y = 0;  
+                direction.y = 0;
 
                 _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime);
 
@@ -108,9 +110,17 @@ public class Rabbit : Monster
         }
     }
 
-    public override void TakeDamage(float damage) 
+    public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
+
+        if (Health > 0)
+        {
+            Vector3 pushDirection = (transform.position - Player.position).normalized;
+            pushDirection.y = LiftForce; 
+
+            _rb.AddForce(pushDirection * PushBackForce, ForceMode.Impulse);
+        }
 
         if (Health <= 0)
         {
@@ -118,14 +128,13 @@ public class Rabbit : Monster
         }
     }
 
-    protected override void Die() 
+    public override void Die()
     {
         _currentState = State.Dead;
         SetAnimatorParameters(State.Dead);
         Debug.Log("Åä³¢°¡ Á×¾ú½À´Ï´Ù.");
         StartCoroutine(WaitForDeathAnimation());
     }
-
     private void SetAnimatorParameters(State state)
     {
         _animator.SetBool("Idle", state == State.Idle);
@@ -133,7 +142,7 @@ public class Rabbit : Monster
         _animator.SetBool("Dead", state == State.Dead);
     }
 
-    private IEnumerator WaitForDeathAnimation()  
+    private IEnumerator WaitForDeathAnimation()
     {
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
