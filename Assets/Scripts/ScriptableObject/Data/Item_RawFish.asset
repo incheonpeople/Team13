@@ -25,3 +25,4 @@ MonoBehaviour:
     value: 10
   - type: 0
     value: 1
+  equipables: []
