@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerConditions : MonoBehaviour
+public interface IDamagable // [Add] 외부작용에 의해 받는 데미지를 위해 추가
 {
+    void TakePhysicalDamage(int damage);
+}
+public class PlayerConditions : MonoBehaviour, IDamagable
+{ 
+
     [Header("HealthValue")]
     [SerializeField] public float health;
     [SerializeField] public float maxHealth;
+
+    [Header("DefenseValue")] // [Add] 방어력 추가
+    [SerializeField] public int defense;
 
     [Header("HungerValue")]
     [SerializeField] public float hunger;
@@ -40,13 +48,12 @@ public class PlayerConditions : MonoBehaviour
         {
             if ( hunger > 0)
             {
-                hunger -= autoDecreaseThirst * Time.deltaTime;
+                hunger -= autoDecreaseThirst * 0.5f * Time.deltaTime;
             }
             else
             {
-                health -= autoDecreaseThirst * Time.deltaTime;
+                health -= autoDecreaseThirst * 0.1f * Time.deltaTime;
             }
-
         }
     }
     public void DecreaseHunger()
@@ -57,7 +64,29 @@ public class PlayerConditions : MonoBehaviour
         }
         else
         {
-            health -= autoDecreaseHunger * Time.deltaTime;
+            health -= autoDecreaseHunger * 0.1f * Time.deltaTime;
         }
+    }
+    public void TakePhysicalDamage(int damage) // [Add] 외부작용에 의해 받는 데미지를 위해 추가
+    { 
+        if (defense < 5)
+        {
+            int remainingDamage = damage - defense; // 방어력이 데미지보다 적을 때 남은 데미지 계산
+
+            if (remainingDamage > 0)
+            {
+                health -= remainingDamage;
+            }
+
+            if (health <= 0)
+            {
+                health = 0;
+                Die();
+            }
+        }
+    }
+    private void Die()
+    {
+        Debug.Log("Player has died.");
     }
 }
