@@ -464,7 +464,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7785363005594551889}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6045546542688542434}
+        m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
+        m_MethodName: OnUseButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &436197886534843758
 GameObject:
   m_ObjectHideFlags: 0
@@ -2789,6 +2801,7 @@ MonoBehaviour:
   fillBottleButton: {fileID: 7235077839775180313}
   grilledMeatButton: {fileID: 4303151638403099956}
   DrinkingButton: {fileID: 7156025577262309654}
+  conditions: {fileID: 0}
 --- !u!1 &3945860229644459944
 GameObject:
   m_ObjectHideFlags: 0
@@ -3564,7 +3577,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7067650478207106497}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6045546542688542434}
+        m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
+        m_MethodName: OnInteractionButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4306781537944663537
 GameObject:
   m_ObjectHideFlags: 0
@@ -6397,7 +6422,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2565872949479620098}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6045546542688542434}
+        m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
+        m_MethodName: OnInteractionButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7235077839775180313
 GameObject:
   m_ObjectHideFlags: 0
@@ -6639,7 +6676,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 876584195574050755}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6045546542688542434}
+        m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
+        m_MethodName: OnDropButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7361577178010696391
 GameObject:
   m_ObjectHideFlags: 0

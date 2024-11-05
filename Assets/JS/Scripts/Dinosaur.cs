@@ -188,7 +188,7 @@ public class Dinosaur : Monster
                 Player player = _currentTarget.GetComponent<Player>();
                 if (player != null)
                 {
-                    player.TakeDamage(AttackDamage);
+                    player.controller.TakeDamage(AttackDamage);
                 }
             }
             else // 다른 몬스터인 경우

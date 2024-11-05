@@ -25,7 +25,6 @@ public class UIInventory : MonoBehaviour
     public GameObject dropButton;
     public GameObject fillBottleButton;
     public GameObject grilledMeatButton;
-    public GameObject DrinkingButton;
 
     private Player player;
     [SerializeField] private PlayerConditions conditions;
@@ -36,12 +35,12 @@ public class UIInventory : MonoBehaviour
     void Start()
     {
         player = CharacterManager.Instance.Player;
-        conditions = CharacterManager.Instance.Player.conditions;
-        dropPostion = CharacterManager.Instance.Player.dropItemPos;
-        CharacterManager.Instance.Player.addItem += Additem;
-        player.inventory += Toggle;
-        player.InteractionInventroy += SetActivetrueInteractionButton;
-        player.ExitInteractionInventory += SetActivefalseInteractionButton;
+        conditions = CharacterManager.Instance.Player.condition;
+        dropPostion = CharacterManager.Instance.Player.dropPosition;
+        CharacterManager.Instance.Player.controller.addItem += Additem;
+        player.controller.inventory += Toggle;
+        player.controller.InteractionInventroy += SetActivetrueInteractionButton;
+        player.controller.ExitInteractionInventory += SetActivefalseInteractionButton;
         inventoryWindow.SetActive(false);
         slots = new ItemSlot[slotPanel.childCount];
 
@@ -72,7 +71,6 @@ public class UIInventory : MonoBehaviour
         dropButton.SetActive(false);
         fillBottleButton.SetActive(false);
         grilledMeatButton.SetActive(false);
-        DrinkingButton.SetActive(false);
     }
 
     //인벤토리 열리게 할지 확인하는 부분
@@ -256,6 +254,17 @@ public class UIInventory : MonoBehaviour
 
     public void OnInteractionButton()
     {
+        if (selectedItem == null)
+        {
+            Debug.LogWarning("선택된 아이템이 없습니다.");
+            return;
+        }
+
+        if (conditions == null)
+        {
+            Debug.LogError("Conditions 객체가 초기화되지 않았습니다.");
+            return;
+        }
         if (selectedItem.type == ItemType.Interactive)
         {
             // 첫 번째 Interactives 요소의 타입을 기반으로 동작

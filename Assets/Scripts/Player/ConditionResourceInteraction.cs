@@ -15,7 +15,7 @@ public class ConditionResourceInteraction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        autoThirst = CharacterManager.Instance.Player.conditions.autoDecreaseThirst;
+        autoThirst = CharacterManager.Instance.Player.condition.autoDecreaseThirst;
         conditions = GetComponent<PlayerConditions>();
         camera = Camera.main;
     }
@@ -33,12 +33,12 @@ public class ConditionResourceInteraction : MonoBehaviour
             eButton.SetActive(true);
             if (Input.GetKey(KeyCode.F))
             {
-                CharacterManager.Instance.Player.conditions.thirst += drinkwater * Time.deltaTime;
-                CharacterManager.Instance.Player.conditions.autoDecreaseThirst = 0;
+                CharacterManager.Instance.Player.condition.thirst += drinkwater * Time.deltaTime;
+                CharacterManager.Instance.Player.condition.autoDecreaseThirst = 0;
             }
             else
             {
-                CharacterManager.Instance.Player.conditions.autoDecreaseThirst = autoThirst;
+                CharacterManager.Instance.Player.condition.autoDecreaseThirst = autoThirst;
             }
         }
         else

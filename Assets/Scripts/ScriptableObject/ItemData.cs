@@ -68,7 +68,7 @@ public class ItemData : ScriptableObject
     [Header("Consumable")]
     public ItemDataConsumable[] consumables;
 
-    [Header("Consumable")]
+    [Header("Interactives")]
     public ItemDataInteractive Interactives;
 
     [Header("Equipable")]

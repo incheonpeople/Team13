@@ -155,7 +155,7 @@ public class Bear : Monster
             Player playerScript = Player.GetComponent<Player>();
             if (playerScript != null)
             {
-                playerScript.TakeDamage(AttackDamage);
+                playerScript.controller.TakeDamage(AttackDamage);
             }
 
             _lastAttackTime = Time.time;
