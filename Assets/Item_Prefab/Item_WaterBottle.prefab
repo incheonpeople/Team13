@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 1708732938933323093}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.029282, y: 0, z: 6.842}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 363008673625574622}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 363008673625574622}
   - component: {fileID: 7595072830170692156}
   - component: {fileID: 7897386201470793721}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CoffeCup
   m_TagString: Untagged
   m_Icon: {fileID: 0}

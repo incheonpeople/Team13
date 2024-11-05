@@ -19,8 +19,8 @@ TagManager:
   - UI
   - Monster
   - Interactable
-  - 
-  - 
+  - Player
+  - DamageZone
   - 
   - 
   - 
