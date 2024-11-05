@@ -3,12 +3,10 @@ using System.Collections;
 
 public class Dinosaur : Monster
 {
-    public Transform Player;
     public float DetectionRange = 12f;
     public float IdleMovementRange = 5f;
     public float IdleMovementInterval = 4f;
-    public LayerMask MonsterLayer; 
-
+    public LayerMask MonsterLayer;
     private float _lastAttackTime;
     private Animator _animator;
     private Rigidbody _rb;
@@ -18,17 +16,15 @@ public class Dinosaur : Monster
     private Transform _currentTarget;
     private Vector3 _wanderTarget;
     private float _wanderTimer;
-    private float _wanderDuration = 5f;
     private float _wanderTimeElapsed;
-
+    private float _wanderDuration = 5f;
     private void Start()
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _currentState = State.Idle;
 
-        Initialize(500f, 50f, 30f, 1f, 4.5f); // 체력, 공격력, 이동속도, 공격속도, 공격범위
-
+        Initialize("Dinosaur", 500f, 50f, 30f, 1f, 4.5f);
         SetWanderTarget();
     }
 
@@ -39,19 +35,17 @@ public class Dinosaur : Monster
             return;
         }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, CharacterManager.Instance.Player.transform.position);
 
         switch (_currentState)
         {
             case State.Idle:
                 _animator.SetBool("Idle", true);
                 _animator.SetBool("Walk", false);
-                _currentTarget = FindClosestMonster(); 
-
+                _currentTarget = FindClosestMonster();
                 if (distanceToPlayer < DetectionRange)
                 {
-                    _currentTarget = Player; 
-                    _currentState = State.Chasing;
+                    _currentTarget = CharacterManager.Instance.Player.transform; _currentState = State.Chasing;
                 }
                 else if (_currentTarget != null)
                 {
@@ -82,6 +76,7 @@ public class Dinosaur : Monster
                 _animator.SetBool("Idle", false);
                 _animator.SetBool("Walk", false);
                 _animator.SetBool("Run", true);
+
                 if (_currentTarget != null)
                 {
                     float distanceToTarget = Vector3.Distance(transform.position, _currentTarget.position);
@@ -140,6 +135,12 @@ public class Dinosaur : Monster
         }
     }
 
+    private void SetWanderTarget()
+    {
+        _wanderTarget = transform.position + new Vector3(Random.Range(-IdleMovementRange, IdleMovementRange), 0, Random.Range(-IdleMovementRange, IdleMovementRange));
+        _wanderTimer = IdleMovementInterval;
+    }
+
     private void MoveTowardsWanderTarget()
     {
         Vector3 direction = (_wanderTarget - transform.position).normalized;
@@ -152,12 +153,6 @@ public class Dinosaur : Monster
 
         _animator.SetBool("Walk", true);
         _animator.SetBool("Idle", false);
-    }
-
-    private void SetWanderTarget()
-    {
-        _wanderTarget = transform.position + new Vector3(Random.Range(-IdleMovementRange, IdleMovementRange), 0, Random.Range(-IdleMovementRange, IdleMovementRange));
-        _wanderTimer = IdleMovementInterval;
     }
 
     private void MoveTowardsTarget(Vector3 targetPosition)
@@ -178,11 +173,14 @@ public class Dinosaur : Monster
     {
         if (_currentTarget != null && Time.time >= _lastAttackTime + AttackSpeed)
         {
+            if (_currentTarget == transform)
+            {
+                return;
+            }
+
             _animator.SetBool("Attack", true);
             _animator.SetBool("Run", false);
-            Debug.Log("공격했습니다");
 
-            // 플레이어가 타겟인 경우
             if (_currentTarget.CompareTag("Player"))
             {
                 Player player = _currentTarget.GetComponent<Player>();
@@ -191,7 +189,7 @@ public class Dinosaur : Monster
                     player.TakeDamage(AttackDamage);
                 }
             }
-            else // 다른 몬스터인 경우
+            else
             {
                 Monster targetMonster = _currentTarget.GetComponent<Monster>();
                 if (targetMonster != null)

@@ -82,7 +82,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8972269322378283016
 Transform:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   MoveSpeed: 0
   AttackSpeed: 1
   AttackRange: 0
-  Player: {fileID: 0}
+  MonsterName: Bear
   DetectionRange: 10
   IdleMovementRange: 5
   IdleMovementInterval: 5
@@ -150,9 +150,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294204251489203764}
   serializedVersion: 4
-  m_Mass: 200
+  m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.01
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: -6.14, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
