@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
-public class PlayerConditions : MonoBehaviour
+public interface IDamagable // [Add] ï¿½Üºï¿½ï¿½Û¿ë¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 {
+    void TakePhysicalDamage(int damage);
+}
+public class PlayerConditions : MonoBehaviour, IDamagable
+{ 
+
     [Header("HealthValue")]
     [SerializeField] public float health;
     [SerializeField] public float maxHealth;
+
+    [Header("DefenseValue")] // [Add] ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] public int defense;
 
     [Header("HungerValue")]
     [SerializeField] public float hunger;
@@ -48,13 +56,12 @@ public class PlayerConditions : MonoBehaviour
         {
             if ( hunger > 0)
             {
-                hunger -= autoDecreaseThirst * Time.deltaTime;
+                hunger -= autoDecreaseThirst * 0.5f * Time.deltaTime;
             }
             else if(health > 0)
             {
-                health -= autoDecreaseThirst * Time.deltaTime;
+                health -= autoDecreaseThirst * 0.1f * Time.deltaTime;
             }
-
         }
     }
     public void DecreaseHunger()
@@ -65,7 +72,7 @@ public class PlayerConditions : MonoBehaviour
         }
         else if (health > 0)
         {
-            health -= autoDecreaseHunger * Time.deltaTime;
+            health -= autoDecreaseHunger * 0.1f * Time.deltaTime;
         }
     }
     public void SpeedUp(float amount)
@@ -78,7 +85,29 @@ public class PlayerConditions : MonoBehaviour
     public void SpeedReturn()
     {
         controller.MoveSpeed = controller.BaseSpeed;
-        //movespeed°ªÀ» ¿ø·¡ »óÅÂ·Î µ¹·ÁÁÜ
+        //movespeedï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
+    public void TakePhysicalDamage(int damage) // [Add] ï¿½Üºï¿½ï¿½Û¿ë¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    { 
+        if (defense < 5)
+        {
+            int remainingDamage = damage - defense; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+
+            if (remainingDamage > 0)
+            {
+                health -= remainingDamage;
+            }
+
+            if (health <= 0)
+            {
+                health = 0;
+                Die();
+            }
+        }
+    }
+    private void Die()
+    {
+        Debug.Log("Player has died.");
+    }
 }
