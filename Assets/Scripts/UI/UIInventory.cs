@@ -40,7 +40,8 @@ public class UIInventory : MonoBehaviour
         dropPostion = CharacterManager.Instance.Player.dropItemPos;
         CharacterManager.Instance.Player.addItem += Additem;
         player.inventory += Toggle;
-
+        player.InteractionInventroy += SetActivetrueInteractionButton;
+        player.ExitInteractionInventory += SetActivefalseInteractionButton;
         inventoryWindow.SetActive(false);
         slots = new ItemSlot[slotPanel.childCount];
 
@@ -55,7 +56,7 @@ public class UIInventory : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     void ClearSelectedItemWindow()
@@ -77,7 +78,7 @@ public class UIInventory : MonoBehaviour
     //인벤토리 열리게 할지 확인하는 부분
     public void Toggle()
     {
-        if(IsOpen())
+        if (IsOpen())
         {
             inventoryWindow.SetActive(false);
         }
@@ -99,7 +100,7 @@ public class UIInventory : MonoBehaviour
         {
             Debug.Log("인벤토리 스택 추가");
             ItemSlot slot = GetItemStack(data);
-            if(slot != null)
+            if (slot != null)
             {
                 slot.quantity++;
                 UpdateUI();
@@ -109,13 +110,14 @@ public class UIInventory : MonoBehaviour
         }
         ItemSlot emptySlot = GetEmptySlot();
 
-        if(emptySlot != null)
+        if (emptySlot != null)
         {
             Debug.Log("인벤토리 추가");
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
             CharacterManager.Instance.Player.itemData = null;
+            return;
         }
         ThrowItem(data);
 
@@ -123,9 +125,9 @@ public class UIInventory : MonoBehaviour
     }
     void UpdateUI()
     {
-        for (int i = 0; i < slots.Length; i++) 
+        for (int i = 0; i < slots.Length; i++)
         {
-            if(slots[i].item != null)
+            if (slots[i].item != null)
             {
                 slots[i].Set();
             }
@@ -137,9 +139,9 @@ public class UIInventory : MonoBehaviour
     }
     ItemSlot GetItemStack(ItemData data)
     {
-        for(int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            if(slots[i].item == data && slots[i].quantity < data.maxStackAmount)
+            if (slots[i].item == data && slots[i].quantity < data.maxStackAmount)
             {
                 return slots[i];
             }
@@ -166,7 +168,7 @@ public class UIInventory : MonoBehaviour
     {
         if (slots[index].item == null) return;
 
-        selectedItem = slots[index].item;   
+        selectedItem = slots[index].item;
         selectedItemIndex = index;
 
         selectedItemName.text = selectedItem.displayName;
@@ -177,9 +179,9 @@ public class UIInventory : MonoBehaviour
 
         for (int i = 0; i < selectedItem.consumables.Length; i++)
         {
-            selectedItemStatName.text += selectedItem.consumables[i].type.ToString()+ "\n";
+            selectedItemStatName.text += selectedItem.consumables[i].type.ToString() + "\n";
             selectedItemStatValue.text += selectedItem.consumables[i].value.ToString() + "\n";
-        }  
+        }
         useButton.SetActive(selectedItem.type == ItemType.Consumable);
         equipButton.SetActive(selectedItem.type == ItemType.Consumable && slots[index].equipped);
         unequipButton.SetActive(selectedItem.type == ItemType.Consumable && slots[index].equipped);
@@ -233,7 +235,7 @@ public class UIInventory : MonoBehaviour
     void RemoveSelectedItem()
     {
         slots[selectedItemIndex].quantity--;
-        if(slots[selectedItemIndex].quantity <= 0)
+        if (slots[selectedItemIndex].quantity <= 0)
         {
             selectedItem = null;
             slots[selectedItemIndex].item = null;
@@ -241,5 +243,43 @@ public class UIInventory : MonoBehaviour
             ClearSelectedItemWindow();
         }
         UpdateUI();
+    }
+
+    public void SetActivetrueInteractionButton()
+    {
+        grilledMeatButton.SetActive(true);
+    }
+    public void SetActivefalseInteractionButton()
+    {
+        grilledMeatButton.SetActive(false);
+    }
+
+    public void OnInteractionButton()
+    {
+        if (selectedItem.type == ItemType.Interactive)
+        {
+            // 첫 번째 Interactives 요소의 타입을 기반으로 동작
+            switch (selectedItem.Interactives.type)
+            {
+                case InteractiveType.RawMeat:
+                    // 생고기와 상호작용하는 로직
+                    CharacterManager.Instance.Player.itemData = selectedItem.Interactives.afterObj;
+                    RemoveSelectedItem();
+                    break;
+                case InteractiveType.EmptyContainer:
+                    selectedItem = selectedItem.Interactives.afterObj;
+                    RemoveSelectedItem();
+                    break;
+                default:
+                    Debug.LogWarning("알 수 없는 InteractiveType입니다.");
+                    break;
+            }
+            Additem();
+        }
+        else
+        {
+            Debug.LogWarning("소모 가능한 아이템이 없거나 잘못된 타입입니다.");
+        }
+        
     }
 }

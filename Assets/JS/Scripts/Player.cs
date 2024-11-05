@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public ItemData itemData;
     public Action addItem;
     public Action inventory;
+    public Action InteractionInventroy;
+    public Action ExitInteractionInventory;
 
     public float MaxHealth = 100f;  // 최대 체력
     private float _currentHealth;  // 현재 체력
@@ -41,7 +43,7 @@ public class Player : MonoBehaviour
     public Transform dropItemPos;
     private void Awake()
     {
-        CharacterManager.Instance.Player=this;
+        CharacterManager.Instance.Player = this;
         conditions = gameObject.GetComponent<PlayerConditions>();
     }
     void Start()
@@ -178,14 +180,28 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-                inventory?.Invoke();
-                ToggleCursor();
+            inventory?.Invoke();
+            ToggleCursor();
         }
     }
     void ToggleCursor()
     {
         bool toggle = Cursor.lockState == CursorLockMode.Locked;
-        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked ;
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("CampFire"))
+        {
+            InteractionInventroy?.Invoke();
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("CampFire"))
+        {
+            ExitInteractionInventory?.Invoke();
+        }
     }
 }

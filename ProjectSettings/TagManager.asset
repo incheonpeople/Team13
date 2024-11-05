@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - Floor
+  - CampFire
   layers:
   - Default
   - TransparentFX

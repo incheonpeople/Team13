@@ -8,7 +8,13 @@ public enum ItemType
     Resource,
     Structure,
     Consumable,
-    Equipable
+    Equipable,
+    Interactive
+}
+public enum InteractiveType
+{
+    RawMeat,        // 생고기용
+    EmptyContainer  // 빈 물통용
 }
 public enum ConsumableType
 {
@@ -29,6 +35,13 @@ public class ItemDataConsumable
 {
     public ConsumableType type;
     public float value;
+}
+
+[Serializable]
+public class ItemDataInteractive
+{
+    public InteractiveType type;
+    public ItemData afterObj;
 }
 
 [Serializable]
@@ -54,6 +67,9 @@ public class ItemData : ScriptableObject
 
     [Header("Consumable")]
     public ItemDataConsumable[] consumables;
+
+    [Header("Consumable")]
+    public ItemDataInteractive Interactives;
 
     [Header("Equipable")]
     public ItemDataEquipable[] equipables; 
