@@ -6,7 +6,10 @@ TagManager:
   tags:
   - Monster
   - Floor
-  - CampFire
+  - SnowField
+  - Forest
+  - Desert
+  - SafetyZone
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - Monster
   - Interactable
   - Player
-  - 
+  - DamageZone
   - 
   - 
   - 

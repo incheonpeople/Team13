@@ -1,12 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
-public class PlayerConditions : MonoBehaviour
+public interface IDamagable // [Add] �ܺ��ۿ뿡 ���� �޴� �������� ���� �߰�
 {
+    void TakePhysicalDamage(int damage);
+}
+public class PlayerConditions : MonoBehaviour, IDamagable
+{ 
+
     [Header("HealthValue")]
     [SerializeField] public float health;
     [SerializeField] public float maxHealth;
+
+    [Header("DefenseValue")] // [Add] ���� �߰�
+    [SerializeField] public int defense;
 
     [Header("HungerValue")]
     [SerializeField] public float hunger;
@@ -17,6 +26,8 @@ public class PlayerConditions : MonoBehaviour
     [SerializeField] public float thirst;
     [SerializeField] public float maxThirst;
     [SerializeField] public float autoDecreaseThirst;
+
+    Player controller;
     private void Start()
     {
         health = maxHealth;
@@ -29,6 +40,12 @@ public class PlayerConditions : MonoBehaviour
         DecreaseHunger();
         DecreaseThirst();
     }
+
+    private void Awake()
+    {
+        controller = GetComponent<Player>();
+    }
+
     public void DecreaseThirst()
     {
         if (thirst > 0)
@@ -39,13 +56,12 @@ public class PlayerConditions : MonoBehaviour
         {
             if ( hunger > 0)
             {
-                hunger -= autoDecreaseThirst * Time.deltaTime;
+                hunger -= autoDecreaseThirst * 0.5f * Time.deltaTime;
             }
             else if(health > 0)
             {
-                health -= autoDecreaseThirst * Time.deltaTime;
+                health -= autoDecreaseThirst * 0.1f * Time.deltaTime;
             }
-
         }
     }
     public void DecreaseHunger()
@@ -56,7 +72,42 @@ public class PlayerConditions : MonoBehaviour
         }
         else if (health > 0)
         {
-            health -= autoDecreaseHunger * Time.deltaTime;
+            health -= autoDecreaseHunger * 0.1f * Time.deltaTime;
         }
+    }
+    public void SpeedUp(float amount)
+    {
+        controller.MoveSpeed += (amount);
+
+        Invoke("SpeedReturn", 10f);
+    }
+
+    public void SpeedReturn()
+    {
+        controller.MoveSpeed = controller.BaseSpeed;
+        //movespeed���� ���� ���·� ������
+    }
+
+    public void TakePhysicalDamage(int damage) // [Add] �ܺ��ۿ뿡 ���� �޴� �������� ���� �߰�
+    { 
+        if (defense < 5)
+        {
+            int remainingDamage = damage - defense; // ������ ���������� ���� �� ���� ������ ���
+
+            if (remainingDamage > 0)
+            {
+                health -= remainingDamage;
+            }
+
+            if (health <= 0)
+            {
+                health = 0;
+                Die();
+            }
+        }
+    }
+    private void Die()
+    {
+        Debug.Log("Player has died.");
     }
 }

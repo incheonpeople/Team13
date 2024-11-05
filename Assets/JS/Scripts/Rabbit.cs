@@ -8,15 +8,15 @@ public class Rabbit : Monster
     public float IdleMovementRange = 3f;
     public float IdleMovementInterval = 3f;
     public float EscapeSpeed = 10.0f;
-    public float PushBackForce = 5f; 
-    public float LiftForce = 2f; 
+    public float PushBackForce = 5f;
+    public float LiftForce = 2f;
 
     private Animator _animator;
     private Rigidbody _rb;
     private enum State { Idle, Running, Dead }
     private State _currentState;
     private Vector3 _targetPosition;
-    private Coroutine _idleMovementCoroutine;
+    private float _idleMovementTimer = 0f;
 
     private void Start()
     {
@@ -24,10 +24,10 @@ public class Rabbit : Monster
         _rb = GetComponent<Rigidbody>();
         _currentState = State.Idle;
 
-        Initialize(10f, 0f, 5f, 0f, 0f);  // 체력, 공격력, 이동속도, 공격속도, 공격범위
+        Initialize("Rabbit", 10f, 0f, 5f, 0f, 0f);  // 체력, 공격력, 이동속도, 공격속도, 공격범위
 
         SetAnimatorParameters(State.Idle);
-        _idleMovementCoroutine = StartCoroutine(IdleMovementCoroutine());
+        _targetPosition = transform.position; 
     }
 
     private void Update()
@@ -41,12 +41,11 @@ public class Rabbit : Monster
 
         if (distanceToPlayer < DetectionRange)
         {
-            if (_idleMovementCoroutine != null)
+            if (_currentState != State.Running)
             {
-                StopCoroutine(_idleMovementCoroutine);
-                _idleMovementCoroutine = null;
+                _currentState = State.Running;
+                SetAnimatorParameters(State.Running);
             }
-            _currentState = State.Running;
             MoveAwayFromPlayer();
         }
         else
@@ -55,8 +54,8 @@ public class Rabbit : Monster
             {
                 _currentState = State.Idle;
                 SetAnimatorParameters(State.Idle);
-                _idleMovementCoroutine = StartCoroutine(IdleMovementCoroutine());
             }
+            IdleMovement();
         }
 
         if (Health <= 0)
@@ -67,46 +66,48 @@ public class Rabbit : Monster
 
     private void MoveAwayFromPlayer()
     {
+
         Vector3 direction = (transform.position - Player.position).normalized;
-        direction.y = 0;
+        direction.y = 0; 
 
         _rb.MovePosition(transform.position + direction * EscapeSpeed * Time.deltaTime);
 
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * EscapeSpeed);
-
-        SetAnimatorParameters(State.Running);
     }
 
-    private IEnumerator IdleMovementCoroutine()
+    private void IdleMovement()
     {
-        while (_currentState != State.Dead)
+       
+        _idleMovementTimer += Time.deltaTime;
+
+        if (_idleMovementTimer >= IdleMovementInterval)
         {
-            _targetPosition = transform.position + new Vector3(Random.Range(-IdleMovementRange, IdleMovementRange), 0, Random.Range(-IdleMovementRange, IdleMovementRange));
-            _targetPosition.y = transform.position.y;
+            _targetPosition = transform.position + new Vector3(
+                Random.Range(-IdleMovementRange, IdleMovementRange),
+                0,
+                Random.Range(-IdleMovementRange, IdleMovementRange)
+            );
+            _targetPosition.y = transform.position.y; 
 
-            while (Vector3.Distance(transform.position, _targetPosition) > 0.1f)
-            {
-                float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
-                if (distanceToPlayer < DetectionRange)
-                {
-                    yield break;
-                }
+            _idleMovementTimer = 0f; 
+        }
 
-                Vector3 direction = (_targetPosition - transform.position).normalized;
-                direction.y = 0;
+        if (Vector3.Distance(transform.position, _targetPosition) > 0.1f)
+        {
+            Vector3 direction = (_targetPosition - transform.position).normalized;
+            direction.y = 0; 
 
-                _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime);
+            _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime);
 
-                Quaternion lookRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);
 
-                SetAnimatorParameters(State.Running);
-                yield return null;
-            }
-
+            SetAnimatorParameters(State.Running);
+        }
+        else
+        {
             SetAnimatorParameters(State.Idle);
-            yield return new WaitForSeconds(IdleMovementInterval);
         }
     }
 
@@ -117,7 +118,7 @@ public class Rabbit : Monster
         if (Health > 0)
         {
             Vector3 pushDirection = (transform.position - Player.position).normalized;
-            pushDirection.y = LiftForce; 
+            pushDirection.y = LiftForce;
 
             _rb.AddForce(pushDirection * PushBackForce, ForceMode.Impulse);
         }
@@ -135,6 +136,7 @@ public class Rabbit : Monster
         Debug.Log("토끼가 죽었습니다.");
         StartCoroutine(WaitForDeathAnimation());
     }
+
     private void SetAnimatorParameters(State state)
     {
         _animator.SetBool("Idle", state == State.Idle);

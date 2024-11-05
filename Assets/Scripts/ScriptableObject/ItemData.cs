@@ -20,7 +20,8 @@ public enum ConsumableType
 {
     health,
     hunger,
-    thirst
+    thirst,
+    speedup
 }
 
 public enum EquipableType

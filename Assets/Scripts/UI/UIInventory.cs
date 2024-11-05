@@ -214,6 +214,9 @@ public class UIInventory : MonoBehaviour
                     case ConsumableType.thirst:
                         conditions.thirst += selectedItem.consumables[i].value;
                         break;
+                    case ConsumableType.speedup:
+                        conditions.SpeedUp(selectedItem.consumables[i].value);
+                        break;
                 }
             }
             RemoveSelectedItem();

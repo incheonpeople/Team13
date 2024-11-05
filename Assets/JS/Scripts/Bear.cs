@@ -3,21 +3,19 @@ using System.Collections;
 
 public class Bear : Monster
 {
-    public Transform Player;
-    public float DetectionRange = 10f;
+    public float DetectionRange = 10f;  // 탐지 범위
     public float IdleMovementRange = 3f; 
     public float IdleMovementInterval = 3f; 
 
-    private float _lastAttackTime;
-    private Animator _animator;
-    private Rigidbody _rb;
-    private enum State { Idle, Chasing, Attacking, Dead, Wandering }
-    private State _currentState;
+    private float _lastAttackTime;     
+    private Animator _animator;         
+    private Rigidbody _rb;              
+    private Vector3 _targetPosition;   
+    private float _idleMovementTimer;  
 
-    private Vector3 _wanderTarget;
-    private float _wanderTimer;
-    private float _wanderDuration = 2f; 
-    private float _wanderTimeElapsed;
+    private GameObject player;         
+    private enum State { Idle, Chasing, Attacking, Dead } 
+    private State _currentState;       
 
     private void Start()
     {
@@ -25,176 +23,177 @@ public class Bear : Monster
         _rb = GetComponent<Rigidbody>();
         _currentState = State.Idle;
 
-        Initialize(100f, 10f, 20f, 1f, 2.3f); 
+        Initialize("Bear", 100f, 10f, 10f, 2f, 3f); // 이름, 체력, 공격력, 이동속도, 공격속도, 공격범위
 
-        SetWanderTarget();
+        _lastAttackTime = Time.time; 
+        _idleMovementTimer = 0f; 
+        SetNewTargetPosition(); 
+
+        player = GameObject.FindWithTag("Player");
     }
 
     private void Update()
     {
         if (_currentState == State.Dead)
         {
-            return;
+            return; 
         }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
+        if (player == null)
+        {
+            return; 
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         switch (_currentState)
         {
             case State.Idle:
-                _animator.SetBool("Idle", true);
-                _animator.SetBool("WalkForward", false); 
+
                 if (distanceToPlayer < DetectionRange)
                 {
-                    _currentState = State.Chasing;  // 추적
+                    _currentState = State.Chasing;
+                    _animator.SetBool("Idle", false);
+                    _animator.SetBool("RunForward", true);
                 }
                 else
                 {
-                    _wanderTimer -= Time.deltaTime;
-                    if (_wanderTimer <= 0)
-                    {
-                        _currentState = State.Wandering;
-                        _wanderTimeElapsed = 0; 
-                    }
-                }
-                break;
-
-            case State.Wandering:
-                Wander();
-                _wanderTimeElapsed += Time.deltaTime;
-
-                if (_wanderTimeElapsed >= _wanderDuration)
-                {
-                    _currentState = State.Idle; 
+                    IdleMovement(); 
                 }
                 break;
 
             case State.Chasing:
-                _animator.SetBool("Idle", false); 
-                _animator.SetBool("WalkForward", false); 
-                _animator.SetBool("RunForward", true); 
+
                 if (distanceToPlayer < AttackRange)
                 {
                     _currentState = State.Attacking;
+                    _animator.SetBool("RunForward", false);
+                    _animator.SetBool("Attack3", true); 
                 }
                 else if (distanceToPlayer > DetectionRange)
                 {
                     _currentState = State.Idle; 
-                    _animator.SetBool("RunForward", false); 
-                    _animator.SetBool("Idle", true); 
+                    _animator.SetBool("RunForward", false);
+                    _animator.SetBool("Idle", true);
                 }
                 else
                 {
-                    MoveTowardsPlayer(distanceToPlayer);
+                    MoveTowardsPlayer(distanceToPlayer); 
                 }
                 break;
 
             case State.Attacking:
-                AttackPlayer();
+
                 if (distanceToPlayer > AttackRange)
                 {
-                    _currentState = State.Chasing; // 다시 추적
+                    _currentState = State.Chasing;
+                    _animator.SetBool("Attack3", false); 
+                }
+                else
+                {
+                    AttackPlayer(); 
                 }
                 break;
         }
     }
 
-    private void Wander()
+    private void IdleMovement()
     {
-        MoveTowardsWanderTarget();
+        _idleMovementTimer += Time.deltaTime;
 
-        if (Vector3.Distance(transform.position, _wanderTarget) < 0.5f)
+        if (_idleMovementTimer >= IdleMovementInterval)
         {
-            SetWanderTarget();
+            SetNewTargetPosition();
+            _idleMovementTimer = 0f; 
+        }
+
+        if (Vector3.Distance(transform.position, _targetPosition) > 0.1f)
+        {
+            Vector3 direction = (_targetPosition - transform.position).normalized;
+            direction.y = 0;
+
+            _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime); 
+
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);
+
+            _animator.SetBool("WalkForward", true);
+            _animator.SetBool("Idle", false);
+        }
+        else
+        {
+            _animator.SetBool("WalkForward", false);
+            _animator.SetBool("Idle", true);
         }
     }
 
-    private void MoveTowardsWanderTarget()
+    private void SetNewTargetPosition()
     {
-        Vector3 direction = (_wanderTarget - transform.position).normalized;
-        direction.y = 0;
-
-        _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime);
-
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);
-
-        _animator.SetBool("WalkForward", true); 
-        _animator.SetBool("Idle", false); 
-    }
-
-    private void SetWanderTarget()
-    {
-        _wanderTarget = transform.position + new Vector3(Random.Range(-IdleMovementRange, IdleMovementRange), 0, Random.Range(-IdleMovementRange, IdleMovementRange));
-        _wanderTimer = IdleMovementInterval;
+        _targetPosition = transform.position + new Vector3(
+            Random.Range(-IdleMovementRange, IdleMovementRange),
+            0, 
+            Random.Range(-IdleMovementRange, IdleMovementRange)
+        );
+        _targetPosition.y = transform.position.y; 
     }
 
     private void MoveTowardsPlayer(float distanceToPlayer)
     {
-        Vector3 direction = (Player.position - transform.position).normalized;
-        direction.y = 0;
+        Vector3 direction = (player.transform.position - transform.position).normalized;
+        direction.y = 0; 
 
-        _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime);
+        _rb.MovePosition(transform.position + direction * MoveSpeed * Time.deltaTime); 
 
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * MoveSpeed);
 
-        _animator.SetBool("WalkForward", false); 
-        _animator.SetBool("RunForward", true);
+        _animator.SetBool("WalkForward", false);
+        _animator.SetBool("RunForward", true); 
     }
 
     private void AttackPlayer()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
-
-        if (distanceToPlayer <= AttackRange && Time.time >= _lastAttackTime + AttackSpeed)
+        if (Time.time >= _lastAttackTime + AttackSpeed)
         {
-            _animator.SetBool("Attack3", true);
-            Debug.Log("공격했습니다");
+            _lastAttackTime = Time.time; 
 
-            Player playerScript = Player.GetComponent<Player>();
+            Player playerScript = player.GetComponent<Player>();
             if (playerScript != null)
             {
                 playerScript.controller.TakeDamage(AttackDamage);
             }
 
-            _lastAttackTime = Time.time;
-            StartCoroutine(WaitForAttackAnimation());
+            _animator.SetBool("Attack3", true);
+            StartCoroutine(ResetAttackAnimation());
         }
     }
 
-    private IEnumerator WaitForAttackAnimation()
+    private IEnumerator ResetAttackAnimation()
     {
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length); 
+        _animator.SetBool("Attack3", false); 
     }
 
     public override void TakeDamage(float damage)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage); 
 
         if (Health <= 0)
         {
-            Die();
+            Die(); 
         }
     }
 
     public override void Die()
     {
-        _animator.SetBool("RunForward", false);
-        _animator.SetBool("Idle", false);
-        _animator.SetBool("WalkForward", false);
-        _animator.SetBool("Attack3", false);
-        _animator.SetBool("Death", true);
-
         _currentState = State.Dead;
+        _animator.SetBool("Death", true); 
         Debug.Log("곰이 죽었습니다.");
         StartCoroutine(WaitForDeathAnimation());
     }
-
     private IEnumerator WaitForDeathAnimation()
     {
         yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
-        yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
 }
