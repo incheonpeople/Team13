@@ -28,8 +28,7 @@ public class Interaction : MonoBehaviour
     void Start()
     {
         camera = Camera.main;
-        playerConditions = GetComponent<PlayerConditions>();
-        damageText.gameObject.SetActive(false); // [Add2] 시작 시 damageText 비활성화
+        playerConditions = GetComponent<PlayerConditions>(); 
         if (damageText == null)
         {
             Debug.LogError("damageText is not assigned in the Inspector.");

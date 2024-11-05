@@ -616,6 +616,8 @@ GameObject:
   - component: {fileID: 327153316784961723}
   - component: {fileID: 1365623802197972952}
   - component: {fileID: 3338039411258309504}
+  - component: {fileID: 5051715468829269415}
+  - component: {fileID: 6571716748021682182}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -754,19 +756,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a35c3dbb9a7beb4faf6c613f93b909a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  condition: {fileID: 0}
   itemData: {fileID: 0}
-  MaxHealth: 100
-  MoveSpeed: 5
-  RunSpeed: 10
-  MouseSensitivity: 200
-  JumpHeight: 2
-  ShakingAmount: 0.2
-  ShakingSpeed: 20
-  AttackDamage: 1
-  DamageOverlay: {fileID: 7589227472276455924}
-  DamageOverlayDuration: 0.5
-  conditions: {fileID: 0}
-  dropItemPos: {fileID: 4992325741044690141}
+  dropPosition: {fileID: 0}
 --- !u!114 &327153316784961723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,6 +774,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 100
+  defense: 0
   hunger: 0
   maxHunger: 100
   autoDecreaseHunger: 10
@@ -799,7 +793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c7829d7128c99441a715c2b26463c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EButton: {fileID: 0}
+  eButton: {fileID: 0}
+  waterFill: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 16
@@ -824,8 +819,155 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  damageZoneLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  damageText: {fileID: 0}
   curInteractGameObject: {fileID: 0}
   promptText: {fileID: 0}
+  damageAmount: 5
+  damageCheckInterval: 5
+--- !u!114 &5051715468829269415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5570849380737313540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 837bd09042c8bcd40863edbea2b24fe9, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6571716748021682182}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 53903789-18bb-4c96-a494-ac0f33b6ff00
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6571716748021682182}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnLook
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 904a98f3-203d-4ecf-aa79-f6901b66632e
+    m_ActionName: Player/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6571716748021682182}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ef8313ea-2a59-4122-8117-4ea8d56d9ae0
+    m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6571716748021682182}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnInventory
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c1dc83e5-02b2-4e42-b3cf-10e7d90b4f04
+    m_ActionName: Player/Inventoy[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3338039411258309504}
+        m_TargetAssemblyTypeName: Interaction, Assembly-CSharp
+        m_MethodName: OnInteractInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a344e824-d2c3-4d78-9b89-c19e72231699
+    m_ActionName: Player/Interaction[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bf1c7927-554b-4cf8-a188-2531f4e7edc4
+    m_ActionName: Player/Attack[/Mouse/leftButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &6571716748021682182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5570849380737313540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd24078233d3b3488af3785612cfee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  baseSpeed: 0
+  jumpPower: 5
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 55
+  cameraContainer: {fileID: 2545305498296431269}
+  minXlock: -85
+  maxXlock: 85
+  camCurXRot: 0
+  lookSensitivity: 0.1
+  canLook: 1
+  DamageOverlay: {fileID: 0}
+  DamageOverlayDuration: 0.5
+  conditions: {fileID: 0}
 --- !u!1 &5693788337515823298
 GameObject:
   m_ObjectHideFlags: 0
