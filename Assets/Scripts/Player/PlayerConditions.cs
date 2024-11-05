@@ -27,7 +27,7 @@ public class PlayerConditions : MonoBehaviour, IDamagable
     [SerializeField] public float maxThirst;
     [SerializeField] public float autoDecreaseThirst;
 
-    Player controller;
+    PlayerController controller;
     private void Start()
     {
         health = maxHealth;
@@ -43,7 +43,7 @@ public class PlayerConditions : MonoBehaviour, IDamagable
 
     private void Awake()
     {
-        controller = GetComponent<Player>();
+        controller = GetComponent<PlayerController>();
     }
 
     public void DecreaseThirst()
@@ -77,14 +77,14 @@ public class PlayerConditions : MonoBehaviour, IDamagable
     }
     public void SpeedUp(float amount)
     {
-        controller.MoveSpeed += (amount);
+        controller.moveSpeed += (amount);
 
         Invoke("SpeedReturn", 10f);
     }
 
     public void SpeedReturn()
     {
-        controller.MoveSpeed = controller.BaseSpeed;
+        controller.moveSpeed = controller.baseSpeed;
         //movespeed���� ���� ���·� ������
     }
 

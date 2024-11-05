@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
+    public float baseSpeed; //속도 증가 포션에 사용하기 위한 속도, MoveSpeed랑 같은 것임
     public float jumpPower;
     private Vector2 curMovementInput;
     public LayerMask groundLayerMask;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         conditions = gameObject.GetComponent<PlayerConditions>();
+        baseSpeed = moveSpeed;
     }
     void Start()
     {
