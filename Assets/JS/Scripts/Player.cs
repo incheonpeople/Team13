@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private float _currentHealth;  // 현재 체력
 
     public float MoveSpeed = 5f;  // 기본 이동속도
+    public float BaseSpeed; //속도 증가 포션에 사용하기 위한 속도, MoveSpeed랑 같은 것임
     public float RunSpeed = 10f;  // 달리기 이동속도
     public float MouseSensitivity = 100f;  // 마우스 감도
 
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
     {
         CharacterManager.Instance.Player=this;
         conditions = gameObject.GetComponent<PlayerConditions>();
+        BaseSpeed = MoveSpeed; // BaseSpeed와 MoveSpeed를 똑같은 값으로 선언해줌
     }
     void Start()
     {

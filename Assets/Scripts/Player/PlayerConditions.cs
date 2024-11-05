@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerConditions : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerConditions : MonoBehaviour
     [SerializeField] public float thirst;
     [SerializeField] public float maxThirst;
     [SerializeField] public float autoDecreaseThirst;
+
+    Player controller;
     private void Start()
     {
         health = maxHealth;
@@ -29,6 +32,12 @@ public class PlayerConditions : MonoBehaviour
         DecreaseHunger();
         DecreaseThirst();
     }
+
+    private void Awake()
+    {
+        controller = GetComponent<Player>();
+    }
+
     public void DecreaseThirst()
     {
         if (thirst > 0)
@@ -59,4 +68,17 @@ public class PlayerConditions : MonoBehaviour
             health -= autoDecreaseHunger * Time.deltaTime;
         }
     }
+    public void SpeedUp(float amount)
+    {
+        controller.MoveSpeed += (amount);
+
+        Invoke("SpeedReturn", 10f);
+    }
+
+    public void SpeedReturn()
+    {
+        controller.MoveSpeed = controller.BaseSpeed;
+        //movespeed값을 원래 상태로 돌려줌
+    }
+
 }
