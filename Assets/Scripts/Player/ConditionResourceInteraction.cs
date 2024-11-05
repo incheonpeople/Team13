@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ConditionResourceInteraction : MonoBehaviour
 {
-    [SerializeField] public GameObject EButton;
+    [SerializeField] public GameObject eButton;
+    [SerializeField] public GameObject waterFill;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private PlayerConditions conditions;
     [SerializeField] private float maxCheckDistance;
@@ -28,7 +29,8 @@ public class ConditionResourceInteraction : MonoBehaviour
         RaycastHit hit;
         if ( Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
         {
-            EButton.SetActive(true);
+            waterFill.SetActive(true);
+            eButton.SetActive(true);
             if (Input.GetKey(KeyCode.F))
             {
                 CharacterManager.Instance.Player.conditions.thirst += drinkwater * Time.deltaTime;
@@ -41,7 +43,8 @@ public class ConditionResourceInteraction : MonoBehaviour
         }
         else
         {
-            EButton.SetActive(false); 
+            waterFill.SetActive(false);
+            eButton.SetActive(false); 
         }
     }
 }

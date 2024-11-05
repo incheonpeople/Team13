@@ -267,6 +267,7 @@ public class UIInventory : MonoBehaviour
                     RemoveSelectedItem();
                     break;
                 case InteractiveType.EmptyContainer:
+                    CharacterManager.Instance.Player.itemData = selectedItem.Interactives.afterObj;
                     selectedItem = selectedItem.Interactives.afterObj;
                     RemoveSelectedItem();
                     break;
