@@ -11,15 +11,27 @@ public class CraftManager : MonoBehaviour
 {
     [SerializeField] List<ItemData> itemDatas;
 
-    public UIInventory inventory;
-    public ItemSlot[ ] slots;
+    public UIInventory inventory; 
+    public ItemSlot[] craftItem = new ItemSlot[7];  
+    public ItemSlot[] slots = new ItemSlot[7];  
+    public Transform slotParent;
 
     ItemData selectedItem;
     int selectedItemIndex = 0;
 
     public void Start()
     {
-
+        for (int i = 0; i < itemDatas.Count; i++)
+        {
+            if (craftItem[i] != null)
+            {
+                craftItem[i].item = itemDatas[i];
+            }
+            else
+            {
+                Debug.LogError($"slotParent의 {i}번째 자식에 ItemSlot 컴포넌트가 없습니다.");
+            }
+        }
     }
 
     public ItemData GetItemData(int value)
@@ -31,58 +43,89 @@ public class CraftManager : MonoBehaviour
         return itemDatas[value];
     }
 
-    public void CraftingAx()
+    public void Crafting()
     {
         slots = inventory.slots;
-        for (int i = 0; i < slots.Length; i++)
+        if (selectedItem == null)
         {
-            if (slots[i].item != null)
+            Debug.LogError("selectedItem이 null");
+            return;
+        }
+
+        if (selectedItem.craftables == null || selectedItem.craftables.Length == 0)
+        {
+            Debug.Log("craftables 배열이 비어있거나 null");
+            return;
+        }
+        if (selectedItem == null)
+        {
+            Debug.Log("selectedItem이 null");
+            return;
+        }
+        // 1. 필요한 재료 조건 검사
+        bool allMaterialsAvailable = true; 
+        foreach (var material in selectedItem.craftables)
+        {
+            bool foundMaterial = false;
+
+            // 인벤토리에서 재료 검색
+            for (int i = 0; i < slots.Length; i++)
             {
-                if (selectedItem.type == ItemType.Craftable)
+                if (slots[i].item != null && slots[i].item == material.ResourceItem)
                 {
-                    for (int j = 0; j < selectedItem.consumables.Length; j++)
+                    if (slots[i].quantity >= material.number)
                     {
-                        switch (selectedItem.consumables[j].type)
-                        {
-                            case ConsumableType.health:
-                                conditions.health += selectedItem.consumables[j].value;
-                                break;
-                            case ConsumableType.hunger:
-                                conditions.hunger += selectedItem.consumables[j].value;
-                                break;
-                            case ConsumableType.thirst:
-                                conditions.thirst += selectedItem.consumables[j].value;
-                                break;
-                            case ConsumableType.speedup:
-                                conditions.SpeedUp(selectedItem.consumables[j].value);
-                                break;
-                        }
+                        foundMaterial = true;
+                        break;
                     }
-                    inventory.RemoveSelectedItem();
                 }
             }
 
-            else
+            // 재료가 없는 경우 플래그 설정
+            if (!foundMaterial)
             {
-                slots[i].Clear();
+                allMaterialsAvailable = false;
+                break;
             }
         }
-        if (inventory != null)
+
+        // 2. 재료가 충분하지 않으면 메서드 종료
+        if (!allMaterialsAvailable)
         {
-            selectedItem = slots[index].item;
+            Debug.Log("재료 부족");
+            return;
         }
 
+        // 3. 재료가 충분할 경우 크래프팅 수행
+        foreach (var material in selectedItem.craftables) 
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i].item != null && slots[i].item == material.ResourceItem)
+                {
+                    slots[i].quantity -= material.number;
+
+                    // 인벤토리에서 재료 수량이 0이 되면 해당 슬롯 비우기
+                    if (slots[i].quantity <= 0)
+                    {
+                        slots[i].Clear();
+                    }
+                    break;
+                }
+            }
+        }
+
+        // 4. 결과 아이템 인벤토리에 추가
+        CharacterManager.Instance.Player.itemData = selectedItem;
+        inventory.Additem();
+        Debug.Log($"{selectedItem.displayName}이(가) 제작 완료");
     }
     public void SelectItem(int index)
     {
-        if (slots[index].item == null) return;
+        if (craftItem[index].item == null) return;
 
-        selectedItem = slots[index].item;
+        selectedItem = craftItem[index].item;
         selectedItemIndex = index;
-
+        Debug.Log(selectedItem.displayName);
     }
-
-
-
-
 }

@@ -30,4 +30,8 @@ MonoBehaviour:
   - type: 2
     value: -5
   EquipPrefab: {fileID: 1207812691146674423, guid: 94cc1c593d8c6e041802d8915144c068, type: 3}
-  craftables: []
+  StructruePrefab: {fileID: 0}
+  craftables:
+  - type: 0
+    ResourceItem: {fileID: 11400000, guid: b448da8828f6afd438986bef93b11d60, type: 2}
+    number: 1

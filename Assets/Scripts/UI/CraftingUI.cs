@@ -37,7 +37,7 @@ public class CraftingUI : MonoBehaviour
         dropPostion = CharacterManager.Instance.Player.dropPosition;
         CraftingWindow.SetActive(false);
         ItemCraftingSlot = new ItemSlot[slotPanel.childCount];
-
+        gameObject.SetActive(false);
         for (int i = 0; i < ItemCraftingSlot.Length; i++)
         {
             ItemData itemData = craftManager.GetItemData(i);
@@ -70,5 +70,6 @@ public class CraftingUI : MonoBehaviour
     public void SetActiveExitCraftingButton()
     {
         CraftingWindow.SetActive(false);
+        player.controller.ToggleCursor();
     }
 }

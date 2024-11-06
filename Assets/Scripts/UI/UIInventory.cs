@@ -54,6 +54,7 @@ public class UIInventory : MonoBehaviour
             slots[i].inventory = this;
         }
         ClearSelectedItemWindow();
+        UpdateUI();
     }
 
     void Update()
@@ -94,7 +95,7 @@ public class UIInventory : MonoBehaviour
         return inventoryWindow.activeInHierarchy;
     }
 
-    void Additem()
+    public void Additem()
     {
         ItemData data = CharacterManager.Instance.Player.itemData;
         if (data.canStack)
@@ -337,5 +338,10 @@ public class UIInventory : MonoBehaviour
     public void OnUnEquipButton()
     {
         UnEquip(selectedItemIndex);
+    }
+    public void SetActiveCraftingButton()
+    {
+        InCraftingButton.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
