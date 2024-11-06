@@ -77,4 +77,7 @@ public class ItemData : ScriptableObject
 
     [Header("Equip")]
     public GameObject EquipPrefab;
+
+    [Header("Equip")]
+    public GameObject StructruePrefab;
 }
