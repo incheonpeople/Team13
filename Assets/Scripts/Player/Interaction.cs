@@ -24,7 +24,7 @@ public class Interaction : MonoBehaviour
     private float lastDamageTime; // [Add] 마지막 데미지 체크 시간
 
     private PlayerConditions playerConditions;
-
+    [SerializeField] ConditionUI conditionUI;
     void Start()
     {
         camera = Camera.main;
@@ -67,6 +67,7 @@ public class Interaction : MonoBehaviour
                                                                                            
             if (Physics.Raycast(damageRay, out hit, maxCheckDistance, damageZoneLayer))
             {
+                conditionUI.debuffCold.SetActive(true);
                 if (Time.time - lastDamageTime > damageCheckInterval)
                 {
                     lastDamageTime = Time.time;
@@ -78,6 +79,9 @@ public class Interaction : MonoBehaviour
             else
             {
                 //damageText.gameObject.SetActive(false); // 데미지 구역을 벗어나면 텍스트 숨기기
+                //conditionUI.debuffCold.SetActive(false);
+
+
             }
         }
 
