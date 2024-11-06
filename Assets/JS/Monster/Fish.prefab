@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4402985797092678695}
   m_Layer: 7
   m_Name: Fish
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,7 +64,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2162922721588991449}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 30
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -95,10 +95,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 100b7f41503954947a1f702d74197547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
-  IdleMovementInterval: 2
+  Health: 10
+  AttackDamage: 0
+  MoveSpeed: 10
+  AttackSpeed: 0
+  AttackRange: 0
+  MonsterName: Fish
+  Player: {fileID: 5061242123769549815, guid: 95ae53d2978d02c409abcacd83e26443, type: 3}
+  deathPrefab: {fileID: 2162922721588991449, guid: 3a8bc2acf32a68049a9e712f7f103bd8, type: 3}
   IdleMovementRange: 5
-  LayerHeight: 0
+  IdleMovementInterval: 2
+  SwimSpeed: 10
 --- !u!1 &5765659115259742006
 GameObject:
   m_ObjectHideFlags: 0

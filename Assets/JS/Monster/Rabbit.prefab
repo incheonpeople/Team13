@@ -200,7 +200,6 @@ GameObject:
   - component: {fileID: 6520467852338091550}
   - component: {fileID: 4057861473632673036}
   - component: {fileID: -5520193078181771998}
-  - component: {fileID: -7005175351696219485}
   m_Layer: 6
   m_Name: Rabbit
   m_TagString: Monster
@@ -309,37 +308,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdffe03b06e7a6e4198c18473f40cdad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
+  Health: 10
   AttackDamage: 0
-  MoveSpeed: 0
+  MoveSpeed: 5
   AttackSpeed: 0
   AttackRange: 0
   MonsterName: Rabbit
   Player: {fileID: 5061242123769549815, guid: 95ae53d2978d02c409abcacd83e26443, type: 3}
+  deathPrefab: {fileID: 8894554596814120074, guid: c326e972b3916774caaad5e22740e93d, type: 3}
+  deathPrefabb: {fileID: 8817283790030025668, guid: 5b4f8de39663ae8439dcf35984604fbc, type: 3}
+  deathPrefabbb: {fileID: 7983768318521490984, guid: 347b0c7ddbbcdc948bc5b616bc353f1d, type: 3}
   DetectionRange: 4
   IdleMovementRange: 3
   IdleMovementInterval: 3
   EscapeSpeed: 10
   PushBackForce: 2
   LiftForce: 1
---- !u!114 &-7005175351696219485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208656311177065854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2739076dcbfc45a4d94c1f3b9b0630c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 0
-  AttackDamage: 0
-  MoveSpeed: 0
-  AttackSpeed: 0
-  AttackRange: 0
-  MonsterName: Rabbit
 --- !u!1 &1246899985883596801
 GameObject:
   m_ObjectHideFlags: 0
