@@ -16,15 +16,10 @@ MonoBehaviour:
   description: "\uC124\uCE58\uD615 \uAC74\uCD95\uBB3C \uC785\uB2C8\uB2E4, \uADFC\uCC98\uC5D0
     \uC788\uC73C\uBA74 \uACE0\uAE30\uB97C \uAD7D\uAC70\uB098 \uCCB4\uC628\uC744 \uC62C\uB9B4\uC218
     \uC788\uC9C0\uB9CC \uBD88\uC5D0 \uB2FF\uC73C\uBA74 \uB370\uBBF8\uC9C0\uB97C \uC785\uC2B5\uB2C8\uB2E4"
-  type: 0
+  type: 1
   icon: {fileID: 21300000, guid: 082f276c8f29f524785852ac5795c0d0, type: 3}
   dropPrefab: {fileID: 3896218835184712303, guid: 192516f396c76714c904f83b42c2b64d, type: 3}
   canStack: 0
   maxStackAmount: 0
   consumables: []
-  Interactives:
-    type: 0
-    afterObj: {fileID: 0}
   equipables: []
-  craftables:
-  - type: 0
