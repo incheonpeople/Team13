@@ -18,6 +18,10 @@ public class Dinosaur : Monster
     private float _wanderTimer;
     private float _wanderTimeElapsed;
     private float _wanderDuration = 5f;
+
+    public GameObject deathPrefab;
+    public GameObject deathPrefabb;
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -225,6 +229,11 @@ public class Dinosaur : Monster
 
     public override void Die()
     {
+        if (_currentState == State.Dead)
+        {
+            return;
+        }
+
         _animator.SetBool("Run", false);
         _animator.SetBool("Idle", false);
         _animator.SetBool("Walk", false);
@@ -233,12 +242,25 @@ public class Dinosaur : Monster
 
         _currentState = State.Dead;
         Debug.Log("°ø·æÀÌ Á×¾ú½À´Ï´Ù.");
-        StartCoroutine(WaitForDeathAnimation());
-    }
 
-    private IEnumerator WaitForDeathAnimation()
-    {
-        yield return new WaitForSeconds(2.7f);
+        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+
+        RaycastHit hit;
+        if (Physics.Raycast(spawnPosition + Vector3.up * 10f, Vector3.down, out hit, Mathf.Infinity))
+        {
+            spawnPosition = hit.point + Vector3.up * 1f;
+        }
+
+        if (deathPrefab != null)
+        {
+
+            for (int i = 0; i < 5; i++)
+            {
+                Instantiate(deathPrefab, spawnPosition, Quaternion.identity);
+            }
+                Instantiate(deathPrefabb, spawnPosition, Quaternion.identity);
+        }
+
         Destroy(gameObject);
     }
 }

@@ -4,12 +4,16 @@ using System.Collections;
 public class Rabbit : Monster
 {
     public Transform Player;
+
+    public GameObject deathPrefab;
+    public GameObject deathPrefabb;
+
     public float DetectionRange = 4f;
     public float IdleMovementRange = 3f;
     public float IdleMovementInterval = 3f;
     public float EscapeSpeed = 10.0f;
-    public float PushBackForce = 5f;
-    public float LiftForce = 2f;
+    public float PushBackForce = 2f;
+    public float LiftForce = 1f;
 
     private Animator _animator;
     private Rigidbody _rb;
@@ -131,10 +135,30 @@ public class Rabbit : Monster
 
     public override void Die()
     {
+        if (_currentState == State.Dead)
+        {
+            return;
+        }
+
         _currentState = State.Dead;
-        SetAnimatorParameters(State.Dead);
+        SetAnimatorParameters(State.Dead);  
         Debug.Log("Åä³¢°¡ Á×¾ú½À´Ï´Ù.");
-        StartCoroutine(WaitForDeathAnimation());
+
+        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+
+        RaycastHit hit;
+        if (Physics.Raycast(spawnPosition + Vector3.up * 10f, Vector3.down, out hit, Mathf.Infinity))
+        {
+            spawnPosition = hit.point + Vector3.up * 1f;  
+        }
+
+        if (deathPrefab != null)
+        {
+            Instantiate(deathPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(deathPrefabb, spawnPosition, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
     }
 
     private void SetAnimatorParameters(State state)
@@ -142,11 +166,5 @@ public class Rabbit : Monster
         _animator.SetBool("Idle", state == State.Idle);
         _animator.SetBool("Run", state == State.Running);
         _animator.SetBool("Dead", state == State.Dead);
-    }
-
-    private IEnumerator WaitForDeathAnimation()
-    {
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
     }
 }
