@@ -89,7 +89,7 @@ public class ItemData : ScriptableObject
 
     [Header("Equipable")]
     public ItemDataEquipable[] equipables;
-
+    public GameObject EquipPrefab;
     [Header("Craftable")]
     public ItemCraftable[] craftables;
 }
