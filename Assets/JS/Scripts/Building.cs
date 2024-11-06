@@ -6,36 +6,36 @@ public class Building : MonoBehaviour
     public GameObject blueprintPrefab; // û����
     public Material transparentMaterial; // ������
     public Material opaqueMaterial; // ������
-    public Material invalidPlacementMaterial; 
+    public Material invalidPlacementMaterial;
     public float placementRange = 5f; // ��ġ ����
 
-    public GameObject[] prefabItemsToSpawn; 
-    public int[] prefabItemCounts; 
+    public GameObject[] prefabItemsToSpawn;
+    public int[] prefabItemCounts;
 
     private GameObject currentBlueprint;
-    private GameObject placedObject; 
+    private GameObject placedObject;
 
-    private Camera playerCamera; 
-    private float destroyRange = 3f; 
+    private Camera playerCamera;
+    private float destroyRange = 3f;
 
     // UI ���� ����
-    public TextMeshProUGUI blueprintStatusText; 
+    public TextMeshProUGUI blueprintStatusText;
     public TextMeshProUGUI destroyStatusText;
 
     void Start()
     {
-        playerCamera = Camera.main; 
-        HideUI(); 
+        playerCamera = Camera.main;
+        HideUI();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F)) 
+        if (Input.GetKeyDown(KeyCode.F))
         {
             PlaceBlueprint();
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) 
+        if (Input.GetKeyDown(KeyCode.E))
         {
             DestroyPlacedObjectAndSpawnPrefabs();
         }
@@ -45,13 +45,13 @@ public class Building : MonoBehaviour
             MoveBlueprint();
         }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                PlaceBlueprint();
-                Destroy(gameObject);
-            }
+        if (Input.GetMouseButtonDown(0))
+        {
+            PlaceBlueprint();
+            Destroy(gameObject);
         }
     }
+
 
     public void UseItem()
     {
@@ -110,8 +110,8 @@ public class Building : MonoBehaviour
         if (currentBlueprint == null)
         {
             currentBlueprint = Instantiate(blueprintPrefab);
-            SetBlueprintMaterial(currentBlueprint, transparentMaterial); 
-            ShowBlueprintStatus("[F] Ű�� ���� ��ġ"); 
+            SetBlueprintMaterial(currentBlueprint, transparentMaterial);
+            ShowBlueprintStatus("[F] Ű�� ���� ��ġ");
         }
         else
         {
@@ -125,8 +125,8 @@ public class Building : MonoBehaviour
 
                 AddColliderToObject(placedObject);
 
-                Destroy(currentBlueprint); 
-                HideUI(); 
+                Destroy(currentBlueprint);
+                HideUI();
             }
         }
     }
@@ -140,7 +140,7 @@ public class Building : MonoBehaviour
 
             SpawnPrefabs();
 
-            HideUI(); 
+            HideUI();
         }
     }
 
@@ -178,8 +178,8 @@ public class Building : MonoBehaviour
             {
                 for (int j = 0; j < prefabItemCounts[i]; j++)
                 {
-                  
-                    Vector3 spawnPosition = playerCamera.transform.position + playerCamera.transform.forward * 2f; 
+
+                    Vector3 spawnPosition = playerCamera.transform.position + playerCamera.transform.forward * 2f;
                     Instantiate(prefabItemsToSpawn[i], spawnPosition, Quaternion.identity);
                 }
             }
@@ -189,7 +189,7 @@ public class Building : MonoBehaviour
     void ShowBlueprintStatus(string message)
     {
         blueprintStatusText.text = message;
-        blueprintStatusText.gameObject.SetActive(true); 
+        blueprintStatusText.gameObject.SetActive(true);
     }
 
     void HideUI()
@@ -209,7 +209,7 @@ public class Building : MonoBehaviour
             }
             else
             {
-                HideUI(); 
+                HideUI();
             }
         }
     }
@@ -217,6 +217,6 @@ public class Building : MonoBehaviour
     void ShowDestroyStatus(string message)
     {
         destroyStatusText.text = message;
-        destroyStatusText.gameObject.SetActive(true); 
+        destroyStatusText.gameObject.SetActive(true);
     }
 }

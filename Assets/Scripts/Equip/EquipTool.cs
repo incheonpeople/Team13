@@ -53,7 +53,7 @@ public class EquipTool : Equip
         }
         if (Physics.Raycast(ray, out hit, attackDistance))
         {
-            if (doesGatherResources && hit.collider.TryGetComponent(out Monster monster))
+            if (doesDealDamage && hit.collider.TryGetComponent(out Monster monster))
             {
                 monster.TakeDamage(damage);
             }

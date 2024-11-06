@@ -183,7 +183,7 @@ public class UIInventory : MonoBehaviour
             selectedItemStatName.text += selectedItem.consumables[i].type.ToString() + "\n";
             selectedItemStatValue.text += selectedItem.consumables[i].value.ToString() + "\n";
         }
-        useButton.SetActive(selectedItem.type == ItemType.Consumable);
+        useButton.SetActive(selectedItem.type == ItemType.Consumable || selectedItem.type == ItemType.Structure);
         equipButton.SetActive(selectedItem.type == ItemType.Equipable && !slots[index].equipped);
         unequipButton.SetActive(selectedItem.type == ItemType.Equipable && slots[index].equipped);
         dropButton.SetActive(true);
@@ -223,6 +223,13 @@ public class UIInventory : MonoBehaviour
                 }
             }
             RemoveSelectedItem();
+        }else if (selectedItem.type == ItemType.Structure)
+        {
+            GameObject structure = Instantiate(selectedItem.StructruePrefab);
+            structure.SetActive(true);
+            structure.GetComponent<Building>().UseItem();
+            RemoveSelectedItem();
+
         }
         else
         {

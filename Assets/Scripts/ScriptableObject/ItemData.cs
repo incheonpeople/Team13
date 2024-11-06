@@ -10,6 +10,7 @@ public enum ItemType
     Consumable,
     Equipable,
     Interactive,
+    Craftable
 }
 public enum Craftable
 {
@@ -90,6 +91,10 @@ public class ItemData : ScriptableObject
     [Header("Equipable")]
     public ItemDataEquipable[] equipables;
     public GameObject EquipPrefab;
+
+    [Header("Structure")]
+    public GameObject StructruePrefab;
+
     [Header("Craftable")]
     public ItemCraftable[] craftables;
 }

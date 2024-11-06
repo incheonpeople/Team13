@@ -35,8 +35,6 @@ public class CraftingUI : MonoBehaviour
         
         conditions = CharacterManager.Instance.Player.condition;
         dropPostion = CharacterManager.Instance.Player.dropPosition;
-        //CharacterManager.Instance.Player.controller.addItem += Additem;
-        //player.controller.inventory += Toggle;
         CraftingWindow.SetActive(false);
         ItemCraftingSlot = new ItemSlot[slotPanel.childCount];
 
