@@ -221,7 +221,10 @@ public class UIInventory : MonoBehaviour
                 }
             }
             RemoveSelectedItem();
-        }
+        }else if (selectedItem.type == ItemType.Structure)
+        {
+
+        } 
         else
         {
             Debug.LogWarning("소모 가능한 아이템이 없거나 잘못된 타입입니다.");
