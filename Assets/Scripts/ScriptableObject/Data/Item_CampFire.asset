@@ -22,4 +22,9 @@ MonoBehaviour:
   canStack: 0
   maxStackAmount: 0
   consumables: []
+  Interactives:
+    type: 0
+    afterObj: {fileID: 0}
   equipables: []
+  EquipPrefab: {fileID: 0}
+  StructruePrefab: {fileID: 5041304329111362415, guid: 1783f5cb8b12cdf4696bf2b792754d01, type: 3}

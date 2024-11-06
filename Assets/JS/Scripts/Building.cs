@@ -24,11 +24,12 @@ public class Building : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 PlaceBlueprint();
+                Destroy(gameObject);
             }
         }
     }
 
-    void UseItem()
+    public void UseItem()
     {
         if (currentBlueprint == null)
         {

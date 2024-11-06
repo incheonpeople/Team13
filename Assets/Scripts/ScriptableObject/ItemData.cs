@@ -78,6 +78,6 @@ public class ItemData : ScriptableObject
     [Header("Equip")]
     public GameObject EquipPrefab;
 
-    [Header("Equip")]
+    [Header("Structrue")]
     public GameObject StructruePrefab;
 }
