@@ -947,18 +947,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f140f4054cb998b4092d933dbf8ced90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
-  AttackDamage: 0
-  MoveSpeed: 0
-  AttackSpeed: 0
-  AttackRange: 0
+  Health: 500
+  AttackDamage: 50
+  MoveSpeed: 30
+  AttackSpeed: 1
+  AttackRange: 4.5
   MonsterName: Dinosaur
-  DetectionRange: 15
+  DetectionRange: 12
   IdleMovementRange: 5
   IdleMovementInterval: 4
   MonsterLayer:
     serializedVersion: 2
     m_Bits: 64
+  deathPrefab: {fileID: 8894554596814120074, guid: c326e972b3916774caaad5e22740e93d, type: 3}
+  deathPrefabb: {fileID: 5278675122772491652, guid: 61842049748766749887e3d2e1c7db10, type: 3}
 --- !u!1 &1822952997241377861
 GameObject:
   m_ObjectHideFlags: 0
