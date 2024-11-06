@@ -50,22 +50,22 @@ public class Building : MonoBehaviour
                 PlaceBlueprint();
                 Destroy(gameObject);
             }
-        }
+        
     }
 
     public void UseItem()
+{
+    if (currentBlueprint == null)
     {
-        if (currentBlueprint == null)
-        {
-            currentBlueprint = Instantiate(blueprintPrefab);
-            SetBlueprintMaterial(currentBlueprint, transparentMaterial); // ������
-        }
-        else
-        {
-            Destroy(currentBlueprint);
-            currentBlueprint = null;
-        }
+        currentBlueprint = Instantiate(blueprintPrefab);
+        SetBlueprintMaterial(currentBlueprint, transparentMaterial); // ������
     }
+    else
+    {
+        Destroy(currentBlueprint);
+        currentBlueprint = null;
+    }
+}
 
     void MoveBlueprint()
     {
