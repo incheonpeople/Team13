@@ -13,7 +13,7 @@ public class ItemSlot : MonoBehaviour
     public TextMeshProUGUI quantityText;
     public Outline outline;
     public UIInventory inventory;
-
+    public CraftManager craft;
     public int index;
     public bool equipped = false;
     public int quantity;
@@ -49,5 +49,9 @@ public class ItemSlot : MonoBehaviour
     public void OnClickButton()
     {
         inventory.SelectItem(index);
+    }
+    public void OnCraftingClickButton()
+    {
+        craft.SelectItem(index);
     }
 }

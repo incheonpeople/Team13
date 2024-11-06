@@ -10,6 +10,7 @@ public class UIInventory : MonoBehaviour
 {
     public ItemSlot[] slots;
 
+    public GameObject Crafting;
     public GameObject inventoryWindow;
     public Transform slotPanel;
     public Transform dropPostion;
@@ -25,6 +26,7 @@ public class UIInventory : MonoBehaviour
     public GameObject dropButton;
     public GameObject fillBottleButton;
     public GameObject grilledMeatButton;
+    public GameObject InCraftingButton;
 
     private Player player;
     [SerializeField] private PlayerConditions conditions;
@@ -32,6 +34,7 @@ public class UIInventory : MonoBehaviour
     ItemData selectedItem;
     int selectedItemIndex = 0;
 
+    int curEquipIndex;
     void Start()
     {
         player = CharacterManager.Instance.Player;
@@ -51,6 +54,7 @@ public class UIInventory : MonoBehaviour
             slots[i].inventory = this;
         }
         ClearSelectedItemWindow();
+        UpdateUI();
     }
 
     void Update()
@@ -91,7 +95,7 @@ public class UIInventory : MonoBehaviour
         return inventoryWindow.activeInHierarchy;
     }
 
-    void Additem()
+    public void Additem()
     {
         ItemData data = CharacterManager.Instance.Player.itemData;
         if (data.canStack)
@@ -180,9 +184,9 @@ public class UIInventory : MonoBehaviour
             selectedItemStatName.text += selectedItem.consumables[i].type.ToString() + "\n";
             selectedItemStatValue.text += selectedItem.consumables[i].value.ToString() + "\n";
         }
-        useButton.SetActive(selectedItem.type == ItemType.Consumable);
-        equipButton.SetActive(selectedItem.type == ItemType.Consumable && slots[index].equipped);
-        unequipButton.SetActive(selectedItem.type == ItemType.Consumable && slots[index].equipped);
+        useButton.SetActive(selectedItem.type == ItemType.Consumable || selectedItem.type == ItemType.Structure);
+        equipButton.SetActive(selectedItem.type == ItemType.Equipable && !slots[index].equipped);
+        unequipButton.SetActive(selectedItem.type == ItemType.Equipable && slots[index].equipped);
         dropButton.SetActive(true);
     }
 
@@ -220,6 +224,13 @@ public class UIInventory : MonoBehaviour
                 }
             }
             RemoveSelectedItem();
+        }else if (selectedItem.type == ItemType.Structure)
+        {
+            GameObject structure = Instantiate(selectedItem.StructruePrefab);
+            structure.SetActive(true);
+            structure.GetComponent<Building>().UseItem();
+            RemoveSelectedItem();
+
         }
         else
         {
@@ -233,7 +244,7 @@ public class UIInventory : MonoBehaviour
         RemoveSelectedItem();
     }
 
-    void RemoveSelectedItem()
+    public void RemoveSelectedItem()
     {
         slots[selectedItemIndex].quantity--;
         if (slots[selectedItemIndex].quantity <= 0)
@@ -294,5 +305,43 @@ public class UIInventory : MonoBehaviour
             Debug.LogWarning("소모 가능한 아이템이 없거나 잘못된 타입입니다.");
         }
         
+    }
+    public void SetActivetrueInCraftingButton()
+    {
+        Crafting.SetActive(true);
+    }
+    public void OnEquipButton()
+    {
+        if (slots[curEquipIndex].equipped)
+        {
+            UnEquip(curEquipIndex);
+        }
+        slots[selectedItemIndex].equipped = true;
+        curEquipIndex = selectedItemIndex;
+        CharacterManager.Instance.Player.equip.EquipNew(selectedItem);
+        UpdateUI();
+        SelectItem(selectedItemIndex);
+    }
+
+    void UnEquip(int index)
+    {
+        slots[index].equipped = false;
+        CharacterManager.Instance.Player.equip.UnEquip();
+        UpdateUI();
+
+        if (selectedItemIndex == index)
+        {
+            SelectItem(selectedItemIndex);
+        }
+    }
+
+    public void OnUnEquipButton()
+    {
+        UnEquip(selectedItemIndex);
+    }
+    public void SetActiveCraftingButton()
+    {
+        InCraftingButton.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
