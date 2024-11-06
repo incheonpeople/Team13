@@ -1,13 +1,13 @@
 using UnityEngine;
-using TMPro; // ÅØ½ºÆ® °ü·Ã
+using TMPro; // ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
 public class Building : MonoBehaviour
 {
-    public GameObject blueprintPrefab; // Ã»»çÁø
-    public Material transparentMaterial; // ¹ÝÅõ¸í
-    public Material opaqueMaterial; // ºÒÅõ¸í
+    public GameObject blueprintPrefab; // Ã»ï¿½ï¿½ï¿½ï¿½
+    public Material transparentMaterial; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public Material opaqueMaterial; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public Material invalidPlacementMaterial; 
-    public float placementRange = 5f; // ¼³Ä¡ ¹üÀ§
+    public float placementRange = 5f; // ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
 
     public GameObject[] prefabItemsToSpawn; 
     public int[] prefabItemCounts; 
@@ -18,7 +18,7 @@ public class Building : MonoBehaviour
     private Camera playerCamera; 
     private float destroyRange = 3f; 
 
-    // UI °ü·Ã º¯¼ö
+    // UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public TextMeshProUGUI blueprintStatusText; 
     public TextMeshProUGUI destroyStatusText;
 
@@ -45,7 +45,26 @@ public class Building : MonoBehaviour
             MoveBlueprint();
         }
 
-        CheckDestroyRange(); 
+            if (Input.GetMouseButtonDown(0))
+            {
+                PlaceBlueprint();
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    public void UseItem()
+    {
+        if (currentBlueprint == null)
+        {
+            currentBlueprint = Instantiate(blueprintPrefab);
+            SetBlueprintMaterial(currentBlueprint, transparentMaterial); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        }
+        else
+        {
+            Destroy(currentBlueprint);
+            currentBlueprint = null;
+        }
     }
 
     void MoveBlueprint()
@@ -92,7 +111,7 @@ public class Building : MonoBehaviour
         {
             currentBlueprint = Instantiate(blueprintPrefab);
             SetBlueprintMaterial(currentBlueprint, transparentMaterial); 
-            ShowBlueprintStatus("[F] Å°¸¦ ´­·¯ ¼³Ä¡"); 
+            ShowBlueprintStatus("[F] Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡"); 
         }
         else
         {
@@ -186,7 +205,7 @@ public class Building : MonoBehaviour
             float distance = Vector3.Distance(playerCamera.transform.position, placedObject.transform.position);
             if (distance <= destroyRange)
             {
-                ShowDestroyStatus("[E] Å°¸¦ ´­·¯ ºÐÇØ");
+                ShowDestroyStatus("[E] Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             }
             else
             {
