@@ -9,12 +9,7 @@ public enum ItemType
     Structure,
     Consumable,
     Equipable,
-    Interactive,
-}
-public enum Craftable
-{
-    Yes,
-    No
+    Interactive
 }
 public enum InteractiveType
 {
@@ -35,7 +30,6 @@ public enum EquipableType
     Defend,
     Speed
 }
-
 
 [Serializable]
 public class ItemDataConsumable
@@ -58,15 +52,6 @@ public class ItemDataEquipable
     public float value;
 }
 
-[Serializable]
-public class ItemCraftable
-{
-    public Craftable type;
-    public ItemData ResourceItem;
-    public int number;
-}
-
-
 [CreateAssetMenu (fileName = "Item", menuName = "NewItem")]
 public class ItemData : ScriptableObject
 {
@@ -88,8 +73,5 @@ public class ItemData : ScriptableObject
     public ItemDataInteractive Interactives;
 
     [Header("Equipable")]
-    public ItemDataEquipable[] equipables;
-
-    [Header("Craftable")]
-    public ItemCraftable[] craftables;
+    public ItemDataEquipable[] equipables; 
 }
