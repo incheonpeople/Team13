@@ -1,40 +1,64 @@
 using UnityEngine;
+using TMPro; // ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
 public class Building : MonoBehaviour
 {
-    public GameObject blueprintPrefab; // Ã»»çÁø
-    public Material transparentMaterial; // ¹ÝÅõ¸í
-    public Material opaqueMaterial; // ºÒÅõ¸í
-    public Material invalidPlacementMaterial; // ¼³Ä¡ ºÒ°¡ ½Ã »ç¿ëÇÒ ¸ÓÆ¼¸®¾ó
-    public float placementRange = 5f; // ¼³Ä¡ ¹üÀ§
+    public GameObject blueprintPrefab; // Ã»ï¿½ï¿½ï¿½ï¿½
+    public Material transparentMaterial; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public Material opaqueMaterial; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public Material invalidPlacementMaterial;
+    public float placementRange = 5f; // ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
+
+    public GameObject[] prefabItemsToSpawn;
+    public int[] prefabItemCounts;
 
     private GameObject currentBlueprint;
+    private GameObject placedObject;
+
+    private Camera playerCamera;
+    private float destroyRange = 3f;
+
+    // UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public TextMeshProUGUI blueprintStatusText;
+    public TextMeshProUGUI destroyStatusText;
+
+    void Start()
+    {
+        playerCamera = Camera.main;
+        HideUI();
+    }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            PlaceBlueprint();
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
-            UseItem();
+            DestroyPlacedObjectAndSpawnPrefabs();
         }
 
         if (currentBlueprint != null)
         {
             MoveBlueprint();
+        }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                PlaceBlueprint();
-                Destroy(gameObject);
-            }
+        if (Input.GetMouseButtonDown(0))
+        {
+            PlaceBlueprint();
+            Destroy(gameObject);
         }
     }
+
 
     public void UseItem()
     {
         if (currentBlueprint == null)
         {
             currentBlueprint = Instantiate(blueprintPrefab);
-            SetBlueprintMaterial(currentBlueprint, transparentMaterial); // ¹ÝÅõ¸í
+            SetBlueprintMaterial(currentBlueprint, transparentMaterial); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
@@ -45,13 +69,13 @@ public class Building : MonoBehaviour
 
     void MoveBlueprint()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        Vector3 forward = Camera.main.transform.forward;
-        Vector3 targetPosition = Camera.main.transform.position + forward * placementRange;
+        Vector3 forward = playerCamera.transform.forward;
+        Vector3 targetPosition = playerCamera.transform.position + forward * placementRange;
 
-        bool isValidPosition = false; 
+        bool isValidPosition = false;
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -59,7 +83,7 @@ public class Building : MonoBehaviour
 
             if (hit.collider.CompareTag("Floor"))
             {
-                isValidPosition = true; 
+                isValidPosition = true;
             }
         }
 
@@ -68,40 +92,62 @@ public class Building : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
-            currentBlueprint.transform.Rotate(Vector3.up, scroll * 100f); 
+            currentBlueprint.transform.Rotate(Vector3.up, scroll * 100f);
         }
-
 
         if (isValidPosition)
         {
-            SetBlueprintMaterial(currentBlueprint, transparentMaterial); 
+            SetBlueprintMaterial(currentBlueprint, transparentMaterial);
         }
         else
         {
-            SetBlueprintMaterial(currentBlueprint, invalidPlacementMaterial); 
+            SetBlueprintMaterial(currentBlueprint, invalidPlacementMaterial);
         }
     }
 
     void PlaceBlueprint()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (currentBlueprint != null && Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Floor"))
+        if (currentBlueprint == null)
         {
-            GameObject placedObject = Instantiate(currentBlueprint);
-            SetBlueprintMaterial(placedObject, opaqueMaterial);
+            currentBlueprint = Instantiate(blueprintPrefab);
+            SetBlueprintMaterial(currentBlueprint, transparentMaterial);
+            ShowBlueprintStatus("[F] Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡");
+        }
+        else
+        {
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            AddColliderToObject(placedObject);
+            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Floor"))
+            {
+                placedObject = Instantiate(currentBlueprint);
+                SetBlueprintMaterial(placedObject, opaqueMaterial);
 
-            Destroy(currentBlueprint);
+                AddColliderToObject(placedObject);
+
+                Destroy(currentBlueprint);
+                HideUI();
+            }
+        }
+    }
+
+    void DestroyPlacedObjectAndSpawnPrefabs()
+    {
+        if (placedObject != null && Vector3.Distance(playerCamera.transform.position, placedObject.transform.position) <= destroyRange)
+        {
+            Destroy(placedObject);
+            placedObject = null;
+
+            SpawnPrefabs();
+
+            HideUI();
         }
     }
 
     void AddColliderToObject(GameObject obj)
     {
         MeshCollider meshCollider = obj.AddComponent<MeshCollider>();
-        meshCollider.convex = false; 
+        meshCollider.convex = false;
 
         MeshFilter meshFilter = obj.GetComponent<MeshFilter>();
         if (meshFilter != null)
@@ -117,5 +163,60 @@ public class Building : MonoBehaviour
         {
             renderer.material = material;
         }
+    }
+
+    void SpawnPrefabs()
+    {
+        if (prefabItemsToSpawn == null || prefabItemCounts == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < prefabItemsToSpawn.Length; i++)
+        {
+            if (prefabItemsToSpawn[i] != null)
+            {
+                for (int j = 0; j < prefabItemCounts[i]; j++)
+                {
+
+                    Vector3 spawnPosition = playerCamera.transform.position + playerCamera.transform.forward * 2f;
+                    Instantiate(prefabItemsToSpawn[i], spawnPosition, Quaternion.identity);
+                }
+            }
+        }
+    }
+
+    void ShowBlueprintStatus(string message)
+    {
+        blueprintStatusText.text = message;
+        blueprintStatusText.gameObject.SetActive(true);
+    }
+
+    void HideUI()
+    {
+        blueprintStatusText.gameObject.SetActive(false);
+        destroyStatusText.gameObject.SetActive(false);
+    }
+
+    void CheckDestroyRange()
+    {
+        if (placedObject != null)
+        {
+            float distance = Vector3.Distance(playerCamera.transform.position, placedObject.transform.position);
+            if (distance <= destroyRange)
+            {
+                ShowDestroyStatus("[E] Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+            }
+            else
+            {
+                HideUI();
+            }
+        }
+    }
+
+    void ShowDestroyStatus(string message)
+    {
+        destroyStatusText.text = message;
+        destroyStatusText.gameObject.SetActive(true);
     }
 }
