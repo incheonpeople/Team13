@@ -23,10 +23,4 @@ MonoBehaviour:
   consumables:
   - type: 3
     value: 10
-  Interactives:
-    type: 0
-    afterObj: {fileID: 0}
   equipables: []
-  craftables: []
-  Wood: 0
-  Stone: 0
