@@ -223,7 +223,7 @@ public class UIInventory : MonoBehaviour
             RemoveSelectedItem();
         }else if (selectedItem.type == ItemType.Structure)
         {
-
+           // Instantiate(selectedItem.)
         } 
         else
         {
