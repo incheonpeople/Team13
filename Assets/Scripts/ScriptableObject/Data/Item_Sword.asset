@@ -21,6 +21,13 @@ MonoBehaviour:
   canStack: 0
   maxStackAmount: 1
   consumables: []
+  Interactives:
+    type: 0
+    afterObj: {fileID: 0}
   equipables:
   - type: 0
     value: 25
+  craftables:
+  - type: 0
+  Wood: 0
+  Stone: 0

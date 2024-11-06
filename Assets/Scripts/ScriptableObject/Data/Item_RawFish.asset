@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: "\uB0A0\uC0DD\uC120"
   description: "\uB0A0\uC0DD\uC120 \uC785\uB2C8\uB2E4, \uADF8\uB0E5 \uBA39\uC5B4\uB3C4
     \uB418\uC9C0\uB9CC \uC775\uD788\uBA74 \uD68C\uBCF5\uB7C9\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4"
-  type: 4
+  type: 2
   icon: {fileID: 21300000, guid: 7109a06682dd2c04ebe697d899ab3544, type: 3}
   dropPrefab: {fileID: 2162922721588991449, guid: 3a8bc2acf32a68049a9e712f7f103bd8, type: 3}
   canStack: 1
@@ -29,3 +29,6 @@ MonoBehaviour:
     type: 0
     afterObj: {fileID: 11400000, guid: 557a84b9a4159454ba86a019628b5cbb, type: 2}
   equipables: []
+  craftables: []
+  Wood: 0
+  Stone: 0
