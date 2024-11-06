@@ -45,11 +45,10 @@ public class Building : MonoBehaviour
             MoveBlueprint();
         }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                PlaceBlueprint();
-                Destroy(gameObject);
-            }
+        if (Input.GetMouseButtonDown(0))
+        {
+            PlaceBlueprint();
+            Destroy(gameObject);
         }
     }
 
