@@ -34,12 +34,18 @@ public class Fish : Monster
 
         _targetPosition = transform.position;
     }
-
     private void Update()
     {
         if (_currentState == State.Dead)
         {
             return;
+        }
+
+        if (transform.position.y > 4f)
+        {
+            Vector3 newPosition = transform.position;
+            newPosition.y -= 1f; 
+            transform.position = newPosition;
         }
 
         if (Health <= 0 && _currentState != State.Dead)
@@ -114,6 +120,7 @@ public class Fish : Monster
         }
 
         _currentState = State.Dead;
+
         Debug.Log("물고기가 죽었습니다.");
 
         if (deathPrefab != null)
