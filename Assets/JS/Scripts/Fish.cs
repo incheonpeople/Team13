@@ -114,7 +114,7 @@ public class Fish : Monster
         }
 
         _currentState = State.Dead;
-        Debug.Log("¹°°í±â°¡ Á×¾ú½À´Ï´Ù.");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½â°¡ ï¿½×¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 
         if (deathPrefab != null)
         {

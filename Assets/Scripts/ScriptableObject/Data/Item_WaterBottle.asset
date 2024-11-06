@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: "\uBB3C\uBCD1"
   description: "\uBB3C\uC774\uB2F4\uAE34 \uBB3C\uBCD1 \uC785\uB2C8\uB2E4, \uB9C8\uC2DC\uBA74
     \uC218\uBD84\uC744 \uD68C\uBCF5\uD560\uC218 \uC788\uC2B5\uB2C8\uB2E4"
-  type: 0
+  type: 2
   icon: {fileID: 21300000, guid: 4b21b1d2ce3fdb94bb766a86f8055639, type: 3}
   dropPrefab: {fileID: 1708732938933323093, guid: fe9cee1557dffe244b7dcc23ee1990d7, type: 3}
   canStack: 1
@@ -27,4 +27,3 @@ MonoBehaviour:
     type: 0
     afterObj: {fileID: 0}
   equipables: []
-  craftables: []

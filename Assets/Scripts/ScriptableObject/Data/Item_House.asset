@@ -16,7 +16,7 @@ MonoBehaviour:
   description: "\uD1B5\uB098\uBB34\uB97C \uBAA8\uC544\uC11C \uB9CC\uB4E0 \uC9D1\uC785\uB2C8\uB2E4,
     \uC124\uCE58\uD558\uBA74 \uB3D9\uBB3C\uB4E4\uC774 \uC811\uADFC\uD558\uC9C0 \uBABB\uD558\uB294
     \uC548\uC804\uC9C0\uB300\uAC00 \uD615\uC131\uB429\uB2C8\uB2E4"
-  type: 0
+  type: 1
   icon: {fileID: 21300000, guid: 2d1be6ec9659250418393f8bdec71832, type: 3}
   dropPrefab: {fileID: 7779902948712811217, guid: c3f7c8ed504a8fe4786e8fb90679828b, type: 3}
   canStack: 0
@@ -26,5 +26,3 @@ MonoBehaviour:
     type: 1
     afterObj: {fileID: 0}
   equipables: []
-  craftables:
-  - type: 0
