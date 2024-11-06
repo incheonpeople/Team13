@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.UI;
 
 public class ConditionUI : MonoBehaviour
@@ -8,6 +9,10 @@ public class ConditionUI : MonoBehaviour
     [SerializeField] public Image HealthImage;
     [SerializeField] public Image HungerImage;
     [SerializeField] public Image ThirstImage;
+
+    [SerializeField] public GameObject debuffCold;
+    [SerializeField] public GameObject debuffHot;
+
     [SerializeField] private PlayerConditions conditions;
     // Start is called before the first frame update
     void Start()

@@ -11,7 +11,6 @@ TagManager:
   - Desert
   - SafetyZone
   - CampFire
-  - River
   layers:
   - Default
   - TransparentFX
@@ -23,7 +22,7 @@ TagManager:
   - Interactable
   - Player
   - DamageZone
-  - Resource
+  - Equip
   - 
   - 
   - 

@@ -1,62 +1,57 @@
 using UnityEngine;
-using TMPro; // 텍스트 관련
 
 public class Building : MonoBehaviour
 {
     public GameObject blueprintPrefab; // 청사진
     public Material transparentMaterial; // 반투명
     public Material opaqueMaterial; // 불투명
-    public Material invalidPlacementMaterial; 
+    public Material invalidPlacementMaterial; // 설치 불가 시 사용할 머티리얼
     public float placementRange = 5f; // 설치 범위
 
-    public GameObject[] prefabItemsToSpawn; 
-    public int[] prefabItemCounts; 
-
     private GameObject currentBlueprint;
-    private GameObject placedObject; 
-
-    private Camera playerCamera; 
-    private float destroyRange = 3f; 
-
-    // UI 관련 변수
-    public TextMeshProUGUI blueprintStatusText; 
-    public TextMeshProUGUI destroyStatusText;
-
-    void Start()
-    {
-        playerCamera = Camera.main; 
-        HideUI(); 
-    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F)) 
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            PlaceBlueprint();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E)) 
-        {
-            DestroyPlacedObjectAndSpawnPrefabs();
+            UseItem();
         }
 
         if (currentBlueprint != null)
         {
             MoveBlueprint();
-        }
 
-        CheckDestroyRange(); 
+            if (Input.GetMouseButtonDown(0))
+            {
+                PlaceBlueprint();
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    public void UseItem()
+    {
+        if (currentBlueprint == null)
+        {
+            currentBlueprint = Instantiate(blueprintPrefab);
+            SetBlueprintMaterial(currentBlueprint, transparentMaterial); // 반투명
+        }
+        else
+        {
+            Destroy(currentBlueprint);
+            currentBlueprint = null;
+        }
     }
 
     void MoveBlueprint()
     {
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        Vector3 forward = playerCamera.transform.forward;
-        Vector3 targetPosition = playerCamera.transform.position + forward * placementRange;
+        Vector3 forward = Camera.main.transform.forward;
+        Vector3 targetPosition = Camera.main.transform.position + forward * placementRange;
 
-        bool isValidPosition = false;
+        bool isValidPosition = false; 
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -64,7 +59,7 @@ public class Building : MonoBehaviour
 
             if (hit.collider.CompareTag("Floor"))
             {
-                isValidPosition = true;
+                isValidPosition = true; 
             }
         }
 
@@ -73,62 +68,40 @@ public class Building : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
-            currentBlueprint.transform.Rotate(Vector3.up, scroll * 100f);
+            currentBlueprint.transform.Rotate(Vector3.up, scroll * 100f); 
         }
+
 
         if (isValidPosition)
         {
-            SetBlueprintMaterial(currentBlueprint, transparentMaterial);
+            SetBlueprintMaterial(currentBlueprint, transparentMaterial); 
         }
         else
         {
-            SetBlueprintMaterial(currentBlueprint, invalidPlacementMaterial);
+            SetBlueprintMaterial(currentBlueprint, invalidPlacementMaterial); 
         }
     }
 
     void PlaceBlueprint()
     {
-        if (currentBlueprint == null)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (currentBlueprint != null && Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Floor"))
         {
-            currentBlueprint = Instantiate(blueprintPrefab);
-            SetBlueprintMaterial(currentBlueprint, transparentMaterial); 
-            ShowBlueprintStatus("[F] 키를 눌러 설치"); 
-        }
-        else
-        {
-            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            GameObject placedObject = Instantiate(currentBlueprint);
+            SetBlueprintMaterial(placedObject, opaqueMaterial);
 
-            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Floor"))
-            {
-                placedObject = Instantiate(currentBlueprint);
-                SetBlueprintMaterial(placedObject, opaqueMaterial);
+            AddColliderToObject(placedObject);
 
-                AddColliderToObject(placedObject);
-
-                Destroy(currentBlueprint); 
-                HideUI(); 
-            }
-        }
-    }
-
-    void DestroyPlacedObjectAndSpawnPrefabs()
-    {
-        if (placedObject != null && Vector3.Distance(playerCamera.transform.position, placedObject.transform.position) <= destroyRange)
-        {
-            Destroy(placedObject);
-            placedObject = null;
-
-            SpawnPrefabs();
-
-            HideUI(); 
+            Destroy(currentBlueprint);
         }
     }
 
     void AddColliderToObject(GameObject obj)
     {
         MeshCollider meshCollider = obj.AddComponent<MeshCollider>();
-        meshCollider.convex = false;
+        meshCollider.convex = false; 
 
         MeshFilter meshFilter = obj.GetComponent<MeshFilter>();
         if (meshFilter != null)
@@ -144,60 +117,5 @@ public class Building : MonoBehaviour
         {
             renderer.material = material;
         }
-    }
-
-    void SpawnPrefabs()
-    {
-        if (prefabItemsToSpawn == null || prefabItemCounts == null)
-        {
-            return;
-        }
-
-        for (int i = 0; i < prefabItemsToSpawn.Length; i++)
-        {
-            if (prefabItemsToSpawn[i] != null)
-            {
-                for (int j = 0; j < prefabItemCounts[i]; j++)
-                {
-                  
-                    Vector3 spawnPosition = playerCamera.transform.position + playerCamera.transform.forward * 2f; 
-                    Instantiate(prefabItemsToSpawn[i], spawnPosition, Quaternion.identity);
-                }
-            }
-        }
-    }
-
-    void ShowBlueprintStatus(string message)
-    {
-        blueprintStatusText.text = message;
-        blueprintStatusText.gameObject.SetActive(true); 
-    }
-
-    void HideUI()
-    {
-        blueprintStatusText.gameObject.SetActive(false);
-        destroyStatusText.gameObject.SetActive(false);
-    }
-
-    void CheckDestroyRange()
-    {
-        if (placedObject != null)
-        {
-            float distance = Vector3.Distance(playerCamera.transform.position, placedObject.transform.position);
-            if (distance <= destroyRange)
-            {
-                ShowDestroyStatus("[E] 키를 눌러 분해");
-            }
-            else
-            {
-                HideUI(); 
-            }
-        }
-    }
-
-    void ShowDestroyStatus(string message)
-    {
-        destroyStatusText.text = message;
-        destroyStatusText.gameObject.SetActive(true); 
     }
 }
