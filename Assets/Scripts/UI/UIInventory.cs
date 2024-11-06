@@ -10,6 +10,7 @@ public class UIInventory : MonoBehaviour
 {
     public ItemSlot[] slots;
 
+    public GameObject Crafting;
     public GameObject inventoryWindow;
     public Transform slotPanel;
     public Transform dropPostion;
@@ -25,6 +26,7 @@ public class UIInventory : MonoBehaviour
     public GameObject dropButton;
     public GameObject fillBottleButton;
     public GameObject grilledMeatButton;
+    public GameObject InCraftingButton;
 
     private Player player;
     [SerializeField] private PlayerConditions conditions;
@@ -233,7 +235,7 @@ public class UIInventory : MonoBehaviour
         RemoveSelectedItem();
     }
 
-    void RemoveSelectedItem()
+    public void RemoveSelectedItem()
     {
         slots[selectedItemIndex].quantity--;
         if (slots[selectedItemIndex].quantity <= 0)
@@ -294,5 +296,9 @@ public class UIInventory : MonoBehaviour
             Debug.LogWarning("소모 가능한 아이템이 없거나 잘못된 타입입니다.");
         }
         
+    }
+    public void SetActivetrueInCraftingButton()
+    {
+        Crafting.SetActive(true);
     }
 }
