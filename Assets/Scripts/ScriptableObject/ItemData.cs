@@ -73,5 +73,8 @@ public class ItemData : ScriptableObject
     public ItemDataInteractive Interactives;
 
     [Header("Equipable")]
-    public ItemDataEquipable[] equipables; 
+    public ItemDataEquipable[] equipables;
+
+    [Header("Equip")]
+    public GameObject EquipPrefab;
 }

@@ -32,6 +32,7 @@ public class UIInventory : MonoBehaviour
     ItemData selectedItem;
     int selectedItemIndex = 0;
 
+    int curEquipIndex;
     void Start()
     {
         player = CharacterManager.Instance.Player;
@@ -181,8 +182,8 @@ public class UIInventory : MonoBehaviour
             selectedItemStatValue.text += selectedItem.consumables[i].value.ToString() + "\n";
         }
         useButton.SetActive(selectedItem.type == ItemType.Consumable);
-        equipButton.SetActive(selectedItem.type == ItemType.Consumable && slots[index].equipped);
-        unequipButton.SetActive(selectedItem.type == ItemType.Consumable && slots[index].equipped);
+        equipButton.SetActive(selectedItem.type == ItemType.Equipable && !slots[index].equipped);
+        unequipButton.SetActive(selectedItem.type == ItemType.Equipable && slots[index].equipped);
         dropButton.SetActive(true);
     }
 
@@ -245,6 +246,31 @@ public class UIInventory : MonoBehaviour
         }
         UpdateUI();
     }
+
+    public void OnEquipButton()
+    {
+        if (slots[selectedItemIndex].equipped)
+        {
+            UnEquip(selectedItemIndex);
+        }
+        slots[selectedItemIndex].equipped = true;
+        curEquipIndex = selectedItemIndex;
+        CharacterManager.Instance.Player.equip.EquipNew(selectedItem);
+        UpdateUI();
+        SelectItem(selectedItemIndex);
+    }
+
+    void UnEquip(int index)
+    {
+        slots[index].equipped = false;
+        CharacterManager.Instance.Player.equip.UnEquip();
+        UpdateUI();
+    }
+    public void OnUnEquipButton()
+    {
+        UnEquip(selectedItemIndex);
+    }
+
 
     public void SetActivetrueInteractionButton()
     {
