@@ -50,6 +50,12 @@ public class EquipTool : Equip
             {
                 resource.Gather(hit.point, hit.normal);
             }
+            // 몬스터 데미지 처리
+            if (doesDealDamage && hit.collider.TryGetComponent(out Monster monster))
+            {
+                monster.TakeDamage(damage); // Bear 클래스의 TakeDamage 메서드 호출
+            }
+
         }
     }
 }
