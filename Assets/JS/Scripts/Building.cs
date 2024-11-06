@@ -51,7 +51,7 @@ public class Building : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
+    
 
     public void UseItem()
     {
