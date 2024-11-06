@@ -73,9 +73,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8972269322378283016}
   - component: {fileID: 8074758434618891232}
-  - component: {fileID: 5609050782067598861}
   - component: {fileID: 7687947276004497085}
   - component: {fileID: 1460535848158840185}
+  - component: {fileID: 5609050782067598861}
   m_Layer: 6
   m_Name: Bear
   m_TagString: Monster
@@ -121,27 +121,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5609050782067598861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 294204251489203764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b76f37a92a51d941bf828ff3376b028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 0
-  AttackDamage: 0
-  MoveSpeed: 0
-  AttackSpeed: 1
-  AttackRange: 0
-  MonsterName: Bear
-  DetectionRange: 10
-  IdleMovementRange: 5
-  IdleMovementInterval: 5
 --- !u!54 &7687947276004497085
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -190,6 +169,28 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 1.06, z: -0.02}
+--- !u!114 &5609050782067598861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294204251489203764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b76f37a92a51d941bf828ff3376b028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  AttackDamage: 10
+  MoveSpeed: 10
+  AttackSpeed: 2
+  AttackRange: 3
+  MonsterName: Bear
+  DetectionRange: 10
+  IdleMovementRange: 3
+  IdleMovementInterval: 3
+  deathPrefab: {fileID: 8894554596814120074, guid: c326e972b3916774caaad5e22740e93d, type: 3}
 --- !u!1 &305617170804887301
 GameObject:
   m_ObjectHideFlags: 0

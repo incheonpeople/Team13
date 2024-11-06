@@ -13,7 +13,8 @@ public class Bear : Monster
     private Vector3 _targetPosition;   
     private float _idleMovementTimer;  
 
-    private GameObject player;         
+    private GameObject player;
+    public GameObject deathPrefab;
     private enum State { Idle, Chasing, Attacking, Dead } 
     private State _currentState;       
 
@@ -186,14 +187,34 @@ public class Bear : Monster
 
     public override void Die()
     {
+        if (_currentState == State.Dead)
+        {
+            return;
+        }
+
         _currentState = State.Dead;
-        _animator.SetBool("Death", true); 
+
+        _animator.SetBool("Death", true);
+
         Debug.Log("°õÀÌ Á×¾ú½À´Ï´Ù.");
-        StartCoroutine(WaitForDeathAnimation());
-    }
-    private IEnumerator WaitForDeathAnimation()
-    {
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+
+        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+
+        RaycastHit hit;
+        if (Physics.Raycast(spawnPosition + Vector3.up * 10f, Vector3.down, out hit, Mathf.Infinity))
+        {
+           
+            spawnPosition = hit.point + Vector3.up * 1f;  
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (deathPrefab != null)
+            {
+                Instantiate(deathPrefab, spawnPosition, Quaternion.identity);
+            }
+        }
+
         Destroy(gameObject);
     }
 }

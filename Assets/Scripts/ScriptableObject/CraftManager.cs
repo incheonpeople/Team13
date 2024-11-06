@@ -34,39 +34,39 @@ public class CraftManager : MonoBehaviour
     public void CraftingAx()
     {
         slots = inventory.slots;
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i].item != null)
-            {
-                if (selectedItem.type == ItemType.Craftable)
-                {
-                    for (int i = 0; i < selectedItem.consumables.Length; i++)
-                    {
-                        switch (selectedItem.consumables[i].type)
-                        {
-                            case ConsumableType.health:
-                                conditions.health += selectedItem.consumables[i].value;
-                                break;
-                            case ConsumableType.hunger:
-                                conditions.hunger += selectedItem.consumables[i].value;
-                                break;
-                            case ConsumableType.thirst:
-                                conditions.thirst += selectedItem.consumables[i].value;
-                                break;
-                            case ConsumableType.speedup:
-                                conditions.SpeedUp(selectedItem.consumables[i].value);
-                                break;
-                        }
-                    }
-                    inventory.RemoveSelectedItem();
-                }
-            }
+        //for (int i = 0; i < slots.Length; i++)
+        //{
+        //    if (slots[i].item != null)
+        //    {
+        //        if (selectedItem.type == ItemType.Craftable)
+        //        {
+        //            for (int i = 0; i < selectedItem.consumables.Length; i++)
+        //            {
+        //                switch (selectedItem.consumables[i].type)
+        //                {
+        //                    case ConsumableType.health:
+        //                        conditions.health += selectedItem.consumables[i].value;
+        //                        break;
+        //                    case ConsumableType.hunger:
+        //                        conditions.hunger += selectedItem.consumables[i].value;
+        //                        break;
+        //                    case ConsumableType.thirst:
+        //                        conditions.thirst += selectedItem.consumables[i].value;
+        //                        break;
+        //                    case ConsumableType.speedup:
+        //                        conditions.SpeedUp(selectedItem.consumables[i].value);
+        //                        break;
+        //                }
+        //            }
+        //            inventory.RemoveSelectedItem();
+        //        }
+        //    }
 
-            else
-            {
-                slots[i].Clear();
-            }
-        }
+        //    else
+        //    {
+        //        slots[i].Clear();
+        //    }
+        //}
         //if (inventory != null)
         //{
         //    selectedItem = slots[index].item;
