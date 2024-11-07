@@ -50,7 +50,7 @@ public class Building : MonoBehaviour
             PlaceBlueprint();
             Destroy(gameObject);
         }
-    
+    }
 
 
     public void UseItem()
