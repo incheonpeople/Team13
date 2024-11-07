@@ -15,11 +15,13 @@ public class Bear : Monster
 
     private GameObject player;
     public GameObject deathPrefab;
-    private enum State { Idle, Chasing, Attacking, Dead } 
-    private State _currentState;       
+    public enum State { Idle, Chasing, Attacking, Dead } 
+    public State _currentState;   
+    BearAudio bearAudio;
 
     private void Start()
     {
+        bearAudio = GetComponent<BearAudio>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _currentState = State.Idle;
@@ -166,6 +168,7 @@ public class Bear : Monster
 
             _animator.SetBool("Attack3", true);
             StartCoroutine(ResetAttackAnimation());
+            bearAudio.bearaudio();
         }
     }
 

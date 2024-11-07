@@ -842,6 +842,8 @@ GameObject:
   - component: {fileID: 9198766496093631810}
   - component: {fileID: 3894112863173683636}
   - component: {fileID: 6847604428778613685}
+  - component: {fileID: 2065628284494478873}
+  - component: {fileID: 7559826024479417384}
   m_Layer: 0
   m_Name: Dinosaur
   m_TagString: Monster
@@ -959,8 +961,129 @@ MonoBehaviour:
   MonsterLayer:
     serializedVersion: 2
     m_Bits: 64
+  _currentState: 0
   deathPrefab: {fileID: 8894554596814120074, guid: c326e972b3916774caaad5e22740e93d, type: 3}
   deathPrefabb: {fileID: 5278675122772491652, guid: 61842049748766749887e3d2e1c7db10, type: 3}
+--- !u!82 &2065628284494478873
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625373564328192302}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &7559826024479417384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625373564328192302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27318f354037558498b92c19bf473d73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DinoAudioClips:
+  - {fileID: 8300000, guid: 5e943fc94c5f63d468f170a86e19c4e1, type: 3}
+  - {fileID: 8300000, guid: ed46ffdaa4dfd654193fcf81409d520e, type: 3}
+  - {fileID: 8300000, guid: 6743886d11e15504e9692d8a368d5aef, type: 3}
+  - {fileID: 8300000, guid: 98b1b70e225c2e343ac77b754be92e15, type: 3}
+  - {fileID: 8300000, guid: 63f526fcec53f054a991a789f79af612, type: 3}
+  DinoAttackClips:
+  - {fileID: 8300000, guid: d1933c748c2c67b488490a3b0f082c03, type: 3}
+  DinostepThreashold: 0.3
+  DinostepRate: 0.5
+  DinoAttackRate: 1
+  _currentState: 0
 --- !u!1 &1822952997241377861
 GameObject:
   m_ObjectHideFlags: 0

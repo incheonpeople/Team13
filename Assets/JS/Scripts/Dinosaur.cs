@@ -10,8 +10,8 @@ public class Dinosaur : Monster
     private float _lastAttackTime;
     private Animator _animator;
     private Rigidbody _rb;
-    private enum State { Idle, Chasing, Attacking, Dead, Wandering }
-    private State _currentState;
+    public enum State { Idle, Chasing, Attacking, Dead, Wandering }
+    public State _currentState;
 
     private Transform _currentTarget;
     private Vector3 _wanderTarget;
@@ -21,9 +21,11 @@ public class Dinosaur : Monster
 
     public GameObject deathPrefab;
     public GameObject deathPrefabb;
+    DinoAudio dinoAudio;
 
     private void Start()
     {
+        dinoAudio = GetComponent<DinoAudio>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _currentState = State.Idle;
@@ -185,12 +187,14 @@ public class Dinosaur : Monster
             _animator.SetBool("Attack", true);
             _animator.SetBool("Run", false);
 
+
             if (_currentTarget.CompareTag("Player"))
             {
                 Player player = _currentTarget.GetComponent<Player>();
                 if (player != null)
                 {
                     player.controller.TakeDamage(AttackDamage);
+                    dinoAudio.dinoaudio();
                 }
             }
             else
@@ -208,6 +212,7 @@ public class Dinosaur : Monster
 
             _lastAttackTime = Time.time;
             StartCoroutine(WaitForAttackAnimation());
+
         }
     }
 
