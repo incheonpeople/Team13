@@ -14,37 +14,44 @@ public class BearAudio : MonoBehaviour
     public float BearAttackRate;
     private float BearStepTime;
     private float BearAttackTime;
+    public Bear.State _currentState;
+
+    Vector3 LastPosition;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-        GetComponent<State>();
-
+        LastPosition = _rigidbody.position;
+        _currentState = GetComponent<Bear>()._currentState;
     }
 
     private void Update()
     {
+
         Update(BearAttackTime);
     }
 
-    void Update(float bearAttackTime)
+    void Update(float bearStepTime)
     {
-        if (Mathf.Abs(_rigidbody.velocity.y) < 0.1f)
+        Vector3 dir = _rigidbody.position - LastPosition;
+        dir.y = 0;
         {
-            if (_rigidbody.velocity.magnitude > BearstepRate)
+            if (dir.magnitude > 0.1f)
             {
                 if (Time.time - BearStepTime > BearstepRate)
                 {
                     BearStepTime = Time.time;
+                    LastPosition = _rigidbody.position;
                     audioSource.PlayOneShot(BearAudioClips[Random.Range(0, BearAudioClips.Length)]);
-                }
-                if (Bear.State.Idle == Bear.State.Attacking)
-                {
-                    BearAttackTime = Time.time;
-                    audioSource.PlayOneShot(BearAttackClips[Random.Range(0, BearAttackClips.Length)]);
                 }
             }
         }
+
+    }
+    public void bearaudio()
+    {
+        BearAttackTime = Time.deltaTime;
+        audioSource.PlayOneShot(BearAttackClips[Random.Range(0, BearAttackClips.Length)]);
     }
 }
