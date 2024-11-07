@@ -26,3 +26,9 @@ MonoBehaviour:
     type: 1
     afterObj: {fileID: 0}
   equipables: []
+  EquipPrefab: {fileID: 0}
+  StructruePrefab: {fileID: 0}
+  craftables:
+  - type: 0
+    ResourceItem: {fileID: 11400000, guid: 4dcb5728f78179747a97ab0994e4692c, type: 2}
+    number: 5
