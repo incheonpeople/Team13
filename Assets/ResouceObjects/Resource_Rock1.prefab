@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &5980508778916027751
 Transform:
@@ -93,7 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8210342786419372473}
   - component: {fileID: 6776930273732968854}
-  - component: {fileID: 6308760348050485549}
+  - component: {fileID: 5673571495869764111}
+  - component: {fileID: -3509154789495250908}
+  - component: {fileID: -2309455709927173124}
   m_Layer: 10
   m_Name: Resource_Rock1
   m_TagString: Untagged
@@ -138,7 +140,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.2632118, y: 1.9554765, z: 1.1281452}
   m_Center: {x: -0.13160592, y: 1.0222617, z: -0.06407261}
---- !u!114 &6308760348050485549
+--- !u!114 &5673571495869764111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,9 +149,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 5192751726707623644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2075890c1df0efb4fbfe9781828db11f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d3f8b1057d1e2444aa9c26aa1de546f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToGive: {fileID: 11400000, guid: b448da8828f6afd438986bef93b11d60, type: 2}
-  quantityPerHit: 1
-  capacy: 7
+  capacity: 2
+--- !u!54 &-3509154789495250908
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5192751726707623644}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-2309455709927173124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5192751726707623644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4d27a4d95391714f9aebee4dd94b988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: b448da8828f6afd438986bef93b11d60, type: 2}

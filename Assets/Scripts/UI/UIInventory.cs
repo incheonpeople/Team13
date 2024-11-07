@@ -228,7 +228,7 @@ public class UIInventory : MonoBehaviour
         {
             GameObject structure = Instantiate(selectedItem.StructruePrefab);
             structure.SetActive(true);
-            structure.GetComponent<Building>().UseItem();
+            //structure.GetComponent<Building>().UseItem();
             RemoveSelectedItem();
 
         }

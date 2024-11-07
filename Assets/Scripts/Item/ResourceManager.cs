@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
-    public ResourceManager resourcePrefab;  // Resource 오브젝트 프리팹 (생성할 자원의 원본)
+    public Resource resourcePrefab;  // Resource 오브젝트 프리팹 (생성할 자원의 원본)
     public int resourceCount = 10;  // 스폰할 Resource 오브젝트의 수
     public string spawnAreaTag = "SpawnArea";  // 스폰할 영역의 태그
     public float spawnHeight = 1.0f;  // Resource 오브젝트가 스폰되는 높이
     public int capacity; // 자원의 최대 용량
 
-    private List<ResourceManager> spawnedResources = new List<ResourceManager>(); // 현재 생성된 자원들을 저장할 리스트
+    private List<Resource> spawnedResources = new List<Resource>(); // 현재 생성된 자원들을 저장할 리스트
 
     void Start()
     {
@@ -36,8 +36,9 @@ public class ResourceManager : MonoBehaviour
         foreach (GameObject spawnArea in spawnAreas)
         {
             Collider spawnCollider = spawnArea.GetComponent<Collider>(); // 스폰 영역의 Collider를 가져옴
+            Terrain terrain = spawnArea.GetComponent<Terrain>();
 
-            if (spawnCollider == null)
+            if (spawnCollider == null || terrain == null)
             {
                 continue; // Collider가 없으면 스폰 영역을 건너뜀
             }
@@ -49,11 +50,11 @@ public class ResourceManager : MonoBehaviour
                 remainingResources--;
             }
 
-            SpawnResourcesInArea(spawnCollider, spawnCount); // 스폰 영역 내에 자원 생성
+            SpawnResourcesInArea(spawnCollider, terrain, spawnCount); // 스폰 영역 내에 자원 생성
         }
     }
 
-    void SpawnResourcesInArea(Collider spawnArea, int spawnCount)
+    void SpawnResourcesInArea(Collider spawnArea, Terrain terrain, int spawnCount)
     {
         for (int i = 0; i < spawnCount; i++)
         {
@@ -62,7 +63,10 @@ public class ResourceManager : MonoBehaviour
 
             Vector3 randomPosition = new Vector3(randomX, spawnHeight, randomZ); // 무작위 위치에 높이 값을 적용하여 최종 스폰 위치 결정
 
-            ResourceManager newResource = Instantiate(resourcePrefab, randomPosition, Quaternion.identity); // 자원 프리팹을 생성
+            float terrianY = terrain.SampleHeight(randomPosition);
+            randomPosition.y = terrianY;
+
+            Resource newResource = Instantiate(resourcePrefab, randomPosition, Quaternion.identity); // 자원 프리팹을 생성
             spawnedResources.Add(newResource); // 생성된 자원을 리스트에 추가
         }
     }
@@ -71,7 +75,7 @@ public class ResourceManager : MonoBehaviour
     {
         for (int i = spawnedResources.Count - 1; i >= 0; i--)
         {
-            ResourceManager resource = spawnedResources[i];
+            Resource resource = spawnedResources[i];
 
             if (resource == null || resource.capacity <= 0)  // 자원이 소모된 경우 체크
             {
@@ -116,8 +120,9 @@ public class ResourceManager : MonoBehaviour
 
             Vector3 randomPosition = new Vector3(randomX, spawnHeight, randomZ); // 높이 값을 적용하여 최종 스폰 위치 결정
 
-            ResourceManager newResource = Instantiate(resourcePrefab, randomPosition, Quaternion.identity); // 자원 프리팹을 생성
+            Resource newResource = Instantiate(resourcePrefab, randomPosition, Quaternion.identity); // 자원 프리팹을 생성
             spawnedResources.Add(newResource); // 리스트에 추가
         }
     }
 }
+
